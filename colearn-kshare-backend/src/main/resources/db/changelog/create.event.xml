@@ -1,0 +1,56 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create.event" author="ysahn">
+        <createTable tableName="event">
+
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="uid" type="varchar(120)"/>
+            <column name="crated_at" type="timestamp with time zone"/>
+            <column name="updated_at" type="timestamp with time zone"/>
+
+            <column name="title" type="varchar(255)"/>
+            <column name="synopsis" type="text"/>
+            <column name="description" type="text"/>
+            <column name="type" type="varchar(20)"/>
+            <column name="start" type="timestamp with time zone"/>
+            <column name="end" type="timestamp with time zone"/>
+            <column name="status" type="varchar(20)"/>
+            <column name="audience" type="text"/>
+            <column name="level" type="varchar(20)"/>
+            <column name="venue" type="text"/>
+            <column name="link" type="varchar(255)"/>
+            <column name="feedback" type="text"/>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create.event_presenters" author="ysahn">
+        <createTable tableName="event_presenters">
+            <column name="event_uid" type="varchar(120)">
+                <constraints referencedTableName="event" referencedColumnNames="uid"
+                             foreignKeyName="event_presenter_fk" nullable="false" />
+            </column>
+            <column name="presenter" type="varchar(255)" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="event_presenters"
+                             columnNames="event_uid, presenter" />
+        <createIndex indexName="event_presenters_event_uid_idx"
+                     tableName="event_presenters">
+            <column name="event_uid"/>
+        </createIndex>
+        <createIndex indexName="event_presenters_presenter_idx"
+                     tableName="event_presenters">
+            <column name="presenter"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
