@@ -8,12 +8,13 @@ import java.time.Instant
 import java.util.*
 import javax.persistence.*
 
+
 @MappedSuperclass
 open class EntityBase(
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val sid: Long? = null,
+        var sid: Long? = null,
 
         @GeneratedValue(generator = "UUID")
         @GenericGenerator(

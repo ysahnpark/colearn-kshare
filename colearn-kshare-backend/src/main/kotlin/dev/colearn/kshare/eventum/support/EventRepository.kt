@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface EventRepository : JpaRepository<Event, Long>, QuerydslPredicateExecutor<Event> {
     fun findByType(type: String): List<Event>
+
+    fun findByUid(uid: String): Event?
 }

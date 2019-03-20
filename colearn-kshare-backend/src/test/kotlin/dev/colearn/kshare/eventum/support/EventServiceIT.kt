@@ -18,7 +18,7 @@ import javax.transaction.Transactional
 @SpringBootTest(
         classes = [
             TestEntityManager::class,
-            EventService::class
+            EventServiceImpl::class
         ]
 )
 @EntityScan("dev.colearn.kshare.eventum")
@@ -27,7 +27,7 @@ class EventServiceIT constructor(
 ) {
 
     @Autowired
-    lateinit var subject: EventService
+    lateinit var subject: EventServiceImpl
     @Autowired
     lateinit var entityManager: TestEntityManager
 
@@ -90,12 +90,12 @@ class EventServiceIT constructor(
         var savedEvents = mutableListOf<Event>()
 
         val events = arrayListOf(
-                Event(title = "E1", type = "A", start = Instant.parse("2019-01-02T12:00:00.00Z"), end = Instant.parse("2019-01-02T13:00:00.00Z"), presenters = arrayOf("Jane", "John")),
-                Event(title = "E2", type = "A", start = Instant.parse("2019-01-09T12:00:00.00Z"), end = Instant.parse("2019-01-09T12:00:00.00Z")),
-                Event(title = "E3", type = "B", start = Instant.parse("2019-01-12T12:00:00.00Z"), end = Instant.parse("2019-01-12T13:00:00.00Z")),
+                Event(title = "E5", type = "B", audience = "engineer", start = Instant.parse("2019-02-05T12:00:00.00Z"), end = Instant.parse("2019-02-05T13:00:00.00Z")),
                 Event(title = "E4", type = "B", start = Instant.parse("2019-02-03T12:00:00.00Z"), end = Instant.parse("2019-02-03T13:00:00.00Z")),
-                Event(title = "E5", type = "B", audience = "engineer", start = Instant.parse("2019-02-05T12:00:00.00Z"), end = Instant.parse("2019-02-05T13:00:00.00Z"))
-        )
+                Event(title = "E3", type = "B", start = Instant.parse("2019-01-12T12:00:00.00Z"), end = Instant.parse("2019-01-12T13:00:00.00Z")),
+                Event(title = "E2", type = "A", start = Instant.parse("2019-01-09T12:00:00.00Z"), end = Instant.parse("2019-01-09T12:00:00.00Z")),
+                Event(title = "E1", type = "A", start = Instant.parse("2019-01-02T12:00:00.00Z"), end = Instant.parse("2019-01-02T13:00:00.00Z"), presenters = arrayOf("Jane", "John"))
+                )
 
         events.map {
             savedEvents.add(entityManager.persist(it))

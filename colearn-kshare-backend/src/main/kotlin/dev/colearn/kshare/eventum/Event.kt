@@ -12,7 +12,6 @@ import javax.persistence.*
 @Table(name = "event")
 data class Event(
 
-
         @Column(name = "title")
         val title: String,
 
