@@ -1,0 +1,15 @@
+{
+  "title": "TEST Event",
+  "synopsis": "This is a test event in JSON",
+  "description":  "ditto",
+  "type": "test",
+  "start":  "2019-01-02T12:00:00.00Z",
+  "end": "2019-01-02T13:00:00.00Z",
+  "presenters":  ["Luke", "Ren"],
+  "status": "confirmed",
+  "audience":  "everyone",
+  "level": "beginner",
+  "venue":  "The Show Room",
+  "link": "https://sample.com/hi",
+  "feedback":  ""
+}

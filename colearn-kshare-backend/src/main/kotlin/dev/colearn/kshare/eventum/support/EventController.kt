@@ -13,7 +13,7 @@ import java.time.Instant
 @RequestMapping("/api/v1/events")
 class EventController @Autowired constructor(val eventService: EventService){
 
-    @GetMapping(value = "/", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @GetMapping(value = "", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun getEvents(@RequestParam(required=false) types: Set<String>?,
                   @RequestParam(required=false) from: Instant? = null,
                   @RequestParam(required=false) to: Instant? = null,
@@ -27,7 +27,7 @@ class EventController @Autowired constructor(val eventService: EventService){
         return eventService.find(uid)
     }
 
-    @PutMapping(value="/", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    @PostMapping(value="", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun addEvent(@RequestBody event: Event): Event {
         return eventService.add(event)
     }

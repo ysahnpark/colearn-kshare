@@ -41,7 +41,7 @@ class EventControllerIT (
     @Test
     fun `using_rest_when_get_return_event`() {
 
-        val stubResponse = Event(title = "E1", type = "A", start = Instant.parse("2019-01-02T12:00:00.00Z"), end = Instant.parse("2019-01-02T13:00:00.00Z"), presenters = arrayOf("Jane", "John"))
+        val stubResponse = Event(title = "E1", type = "A", start = Instant.parse("2019-01-02T12:00:00.00Z"), end = Instant.parse("2019-01-02T13:00:00.00Z"), presenters = setOf("Jane", "John"))
 
         val testUid = "TEST-UID1"
         Mockito.`when`(eventService.find(testUid)).thenReturn(stubResponse)

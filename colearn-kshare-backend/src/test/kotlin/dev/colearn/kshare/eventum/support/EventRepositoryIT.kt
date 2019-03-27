@@ -73,7 +73,7 @@ class EventRepositoryIT constructor(
         var savedEvents = mutableListOf<Event>()
 
         val events = arrayListOf(
-                Event(title = "E1", type = "A", start = Instant.now(), end = Instant.now(), presenters = arrayOf("Jane", "John")),
+                Event(title = "E1", type = "A", start = Instant.now(), end = Instant.now(), presenters = setOf("Jane", "John")),
                 Event(title = "E2", type = "A", start = Instant.now(), end = Instant.now()),
                 Event(title = "E3", type = "B", start = Instant.now(), end = Instant.now()),
                 Event(title = "E4", type = "B", start = Instant.now(), end = Instant.now()),

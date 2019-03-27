@@ -35,9 +35,9 @@ data class Event(
                 joinColumns = [JoinColumn(name = "event_uid", referencedColumnName = "uid")])
         @Fetch(FetchMode.JOIN)
         @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-        @OrderColumn
-        @Column(name = "presenters")
-        val presenters: Array<String>? = null,
+//        @OrderColumn
+        @Column(name = "presenter")
+        val presenters: Set<String>? = null,
 
         @Column(name = "status")
         val status: String = "", // confirmed, tentative, etc
