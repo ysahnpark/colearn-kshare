@@ -1,6 +1,6 @@
 import React from "react";
 
-import EventBrowse from './event/EventBrowse';
+import VisibleEventList from './event/VisibleEventList';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 function Index() {
@@ -33,7 +33,7 @@ function AppRouter() {
           </ul>
         </nav>
 
-        <Route path="/" exact component={EventBrowse} />
+        <Route path="/" exact component={VisibleEventList} />
         <Route path="/offer-event/" component={Offer} />
         <Route path="/suggest-event/" component={Suggest} />
       </div>

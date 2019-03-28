@@ -32,6 +32,12 @@ class EventController @Autowired constructor(val eventService: EventService){
         return eventService.add(event)
     }
 
+    @PutMapping(value = "/{uid}", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    fun updateEvent(@PathVariable uid: String, @RequestBody event: Event) : Event? {
+        event.uid = uid
+        return eventService.update(event)
+    }
+
     @DeleteMapping(value="/{uid}", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun deleteEvent(@PathVariable uid: String): Event {
         return eventService.dalete(uid)
