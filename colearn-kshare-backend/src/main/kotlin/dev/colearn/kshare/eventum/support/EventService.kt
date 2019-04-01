@@ -10,5 +10,5 @@ interface EventService {
     fun find(eventUid: String): Event?
     fun add(event: Event): Event
     fun update(event: Event): Event
-    fun dalete(eventUid: String): Event
+    fun deleteByUid(eventUid: String): Event
 }

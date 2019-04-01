@@ -40,6 +40,6 @@ class EventController @Autowired constructor(val eventService: EventService){
 
     @DeleteMapping(value="/{uid}", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun deleteEvent(@PathVariable uid: String): Event {
-        return eventService.dalete(uid)
+        return eventService.deleteByUid(uid)
     }
 }

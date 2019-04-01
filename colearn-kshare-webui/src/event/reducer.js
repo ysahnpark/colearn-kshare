@@ -12,6 +12,8 @@ const events = (state = [], action) => {
       return state.map(event =>
         event.uid === action.modifiedEvent.uid ? { ...action.modifiedEvent } : event
       )
+    case 'DELETE_EVENT':
+      return state.filter((event)=>event.uid !== action.eventUid);
     default:
       return state
   }

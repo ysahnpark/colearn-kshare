@@ -64,7 +64,7 @@ class EventServiceImpl @Autowired constructor (
     }
 
     override
-    fun dalete(eventUid: String): Event {
+    fun deleteByUid(eventUid: String): Event {
         var foundEvent = eventRepository.findByUid(eventUid) ?: throw IllegalStateException("Not Found: UID[$eventUid]")
 
         eventRepository.delete(foundEvent)

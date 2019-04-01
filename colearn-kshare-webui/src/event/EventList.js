@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import EventEditDialog from './EventEditDialog';
 
 const CustomTableCell = withStyles(theme => ({
@@ -49,7 +50,7 @@ const rows = [
 ];
 */
 
-const EventList = ({ classes, events, loadEvents, updateEvent }) => (
+const EventList = ({ classes, events, loadEvents, updateEvent, deleteEvent }) => (
   <Paper className={classes.root}>
     <Table className={classes.table}>
       <TableHead>
@@ -74,7 +75,10 @@ const EventList = ({ classes, events, loadEvents, updateEvent }) => (
             <CustomTableCell align="right">{event.presenters}</CustomTableCell>
             <CustomTableCell align="right">{event.audience}</CustomTableCell>
             <CustomTableCell align="right">{event.venue}</CustomTableCell>
-            <CustomTableCell ><EventEditDialog event={event} updateEvent= {updateEvent}/></CustomTableCell>
+            <CustomTableCell >
+              <EventEditDialog event={event} updateEvent= {updateEvent}/>
+              <Button onClick={()=>deleteEvent(event.uid)}>Delete</Button>
+            </CustomTableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -84,7 +88,7 @@ const EventList = ({ classes, events, loadEvents, updateEvent }) => (
 
 EventList.propTypes = {
   classes: PropTypes.object.isRequired,
-  events: PropTypes.object.isRequired,
+  events: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(EventList);

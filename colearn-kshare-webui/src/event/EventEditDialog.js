@@ -20,8 +20,8 @@ export default function EventEditDialog({event, updateEvent}) {
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        aria-labelledby="form-dialog-title"
-      >
+        aria-labelledby="form-dialog-title" >
+        
         <DialogTitle id="form-dialog-title">Edit Event {event.sid}</DialogTitle>
         <DialogContent>
           <DialogContentText>
