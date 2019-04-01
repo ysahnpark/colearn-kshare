@@ -10,7 +10,7 @@ export const setEvents = (events) => ({
 
 export const replaceEvent = (event) => ({
   type: 'REPLACE_EVENT',
-  event
+  modifiedEvent: event
 })
 
 export function loadEventsAsync(url) {

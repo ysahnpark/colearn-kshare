@@ -10,7 +10,7 @@ const events = (state = [], action) => {
       ]
     case 'REPLACE_EVENT':
       return state.map(event =>
-        event.uid === action.modifiedEvent.uid ? { ...event } : event
+        event.uid === action.modifiedEvent.uid ? { ...action.modifiedEvent } : event
       )
     default:
       return state

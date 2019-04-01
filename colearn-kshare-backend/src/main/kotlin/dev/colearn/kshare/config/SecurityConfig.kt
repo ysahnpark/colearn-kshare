@@ -19,13 +19,16 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         //.anyRequest().authenticated()
     }
 
-    @Bean
-    fun corsConfigurationSource():
     // @see: https://docs.spring.io/spring-security/site/docs/current/reference/html/cors.html
-            CorsConfigurationSource {
+    // @see: https://docs.spring.io/spring-security/site/docs/5.0.x/reference/html/cors.html#cors
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf("*")
-        configuration.allowedMethods = listOf("GET", "DELETE", "POST", "PUT", "OPTIONS")
+        // configuration.allowedMethods = listOf("GET", "DELETE", "POST", "PUT", "OPTIONS")
+        configuration.allowedMethods = listOf("*")
+        configuration.allowedHeaders = listOf("*") // Without this, the PUT returns 403
         configuration.allowCredentials = true
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)

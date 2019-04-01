@@ -25,14 +25,13 @@ const styles = theme => ({
 });
 
 // https://upmostly.com/tutorials/using-custom-react-hooks-simplify-forms/
-const EventForm = ({ classes, origEvent, onSumbit }) => {
+const EventForm = ({ classes, origEvent, onSubmit }) => {
   const [eventDetails, setValues] = useState(origEvent);
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault();
-    alert("Event:" + JSON.stringify(eventDetails,null, null, 2));
-    // onSubmit(eventDetails)
-
+    // alert("Event:" + JSON.stringify(eventDetails,null, null, 2));
+    onSubmit(eventDetails)
   };
 
   const handleInputChange = (event) => {
