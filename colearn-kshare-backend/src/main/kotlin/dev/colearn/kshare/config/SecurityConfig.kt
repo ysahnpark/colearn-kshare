@@ -13,8 +13,9 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override
     fun configure(http: HttpSecurity) {
-        http.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers("/api/v1**").permitAll()
+        http.headers().frameOptions().sameOrigin() // to allow iframes
+                .and().cors().and().csrf().disable()
+                .authorizeRequests().antMatchers("/**").permitAll()
         //.authorizeRequests().antMatchers("/api/users/v1/login", "/api/users/v1/register").permitAll()
         //.anyRequest().authenticated()
     }

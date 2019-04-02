@@ -2,6 +2,7 @@ package dev.colearn.kshare.eventum.support
 
 import dev.colearn.kshare.eventum.Event
 import dev.colearn.kshare.eventum.QEvent
+import dev.colearn.kshare.eventum.ResourceLink
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -60,10 +61,23 @@ class EventRepositoryIT constructor(
         val predicate = QEvent.event.title.eq("E1")
         val result = subject.findAll(predicate)
 
-
         val end = Instant.now()
         assertThat(result.first().presenters).containsExactlyInAnyOrder("Jane", "John")
-        System.out.println(result.first().createdAt)
+        assertThat(result.first().createdAt).isBetween(start, end)
+        assertThat(result.first().updatedAt).isNull()
+    }
+
+    @Test
+    fun `when_queryOneWithResources_then_success`() {
+        val start = Instant.now()
+        val events = populate()
+
+        val predicate = QEvent.event.title.eq("E2")
+        val result = subject.findAll(predicate)
+
+        val end = Instant.now()
+        assertThat(result.first().resources).hasSize(1)
+        assertThat(result.first().resources.first().kind).isEqualTo("Doc");
         assertThat(result.first().createdAt).isBetween(start, end)
         assertThat(result.first().updatedAt).isNull()
     }
@@ -74,7 +88,8 @@ class EventRepositoryIT constructor(
 
         val events = arrayListOf(
                 Event(title = "E1", type = "A", start = Instant.now(), end = Instant.now(), presenters = setOf("Jane", "John")),
-                Event(title = "E2", type = "A", start = Instant.now(), end = Instant.now()),
+                Event(title = "E2", type = "A", start = Instant.now(), end = Instant.now(),
+                        resources = setOf(ResourceLink(name ="My Doc", kind="Doc", mediaType = "word", uri = "http://sample.com/1234")) ),
                 Event(title = "E3", type = "B", start = Instant.now(), end = Instant.now()),
                 Event(title = "E4", type = "B", start = Instant.now(), end = Instant.now()),
                 Event(title = "E5", type = "B", audience = "engineer", start = Instant.now(), end = Instant.now())

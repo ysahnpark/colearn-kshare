@@ -3,6 +3,7 @@ import EventList from './EventList'
 import { loadEventsAsync, updateEventAsync, deleteEventAsync } from './actions'
 import { VisibilityFilters } from './actions'
 
+
 const getVisibleEvents = (events, filter) => {
   switch (filter) {
     case VisibilityFilters.SHOW_ALL:

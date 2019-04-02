@@ -55,7 +55,11 @@ data class Event(
         val link: String? = null,
 
         @Column(name = "feedback")
-        val feedback: String? = null // Feedback link
+        val feedback: String? = null, // Feedback link
+
+        @OneToMany(cascade = [CascadeType.ALL])
+        @JoinColumn(name = "event_uid")
+        var resources: Set<ResourceLink> = setOf() // Feedback link
 ) : EntityBase(), Serializable {
 
 }

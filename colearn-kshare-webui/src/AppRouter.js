@@ -1,11 +1,10 @@
 import React from "react";
 
 import VisibleEventList from './event/VisibleEventList';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link as RouterLink } from "react-router-dom";
+import Link from '@material-ui/core/Link';
 
-function Index() {
-  return <h2>Browse</h2>;
-}
+import Button from '@material-ui/core/Button';
 
 function Offer() {
   return <h2>Offer</h2>;
@@ -20,17 +19,9 @@ function AppRouter() {
     <Router>
       <div>
         <nav>
-          <ul>
-            <li>
-              <Link to="/">Browse</Link>
-            </li>
-            <li>
-              <Link to="/offer-event/">Offer</Link>
-            </li>
-            <li>
-              <Link to="/suggest-event/">Suggest</Link>
-            </li>
-          </ul>
+              <Button><Link component={RouterLink} to="/" variant="body2">Browse</Link></Button>
+              <Button><Link component={RouterLink} to="/offer-event/" variant="body2">Offer</Link></Button>
+              <Button><Link component={RouterLink} to="/suggest-event/">Suggest</Link></Button>
         </nav>
 
         <Route path="/" exact component={VisibleEventList} />

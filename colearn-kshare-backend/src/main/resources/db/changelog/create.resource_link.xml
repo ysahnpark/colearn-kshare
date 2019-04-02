@@ -1,0 +1,33 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create.resource_link" author="ysahn">
+        <createTable tableName="resource_link">
+
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="uid" type="varchar(120)"/>
+            <column name="crated_at" type="timestamp with time zone"/>
+            <column name="updated_at" type="timestamp with time zone"/>
+
+            <column name="event_uid" type="varchar(20)"/>
+            <column name="kind" type="varchar(30)"/>
+            <column name="media_type" type="varchar(30)"/>
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="text"/>
+            <column name="uri" type="text"/>
+
+        </createTable>
+
+        <createIndex indexName="resource_link_uid_idx"
+                     tableName="resource_link" unique="true">
+            <column name="uid"/>
+        </createIndex>
+    </changeSet>
+
+
+</databaseChangeLog>

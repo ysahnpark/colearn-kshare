@@ -28,6 +28,11 @@
             <column name="feedback" type="text"/>
 
         </createTable>
+
+        <createIndex indexName="event_uid_idx"
+                     tableName="event" unique="true">
+            <column name="uid"/>
+        </createIndex>
     </changeSet>
 
     <changeSet id="create.event_presenters" author="ysahn">
