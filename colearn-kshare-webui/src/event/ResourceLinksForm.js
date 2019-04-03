@@ -13,13 +13,15 @@ const styles = theme => ({
   },
 })
 
-const ResourceLinkInput = ({ classes, resource, deleteResource, onChange }) => {
+const ResourceLinkInput = ({ classes, idx, resource, onChange, deleteResource }) => {
 
   const handleInputChange = (event) => {
     resource = { ...resource, [event.target.name]: event.target.value };
+    // The event object passed to the callback has this structure to keep consistency with DOM model
+    // So that the parent container can handle in a consistent way. See EventForm's handleInputChange()
     let myEvent = {
       "target": {
-        "name": event.uid,
+        "name": idx,
         "value": resource
       }
     };
@@ -43,7 +45,7 @@ const ResourceLinkInput = ({ classes, resource, deleteResource, onChange }) => {
           onChange={handleInputChange}
         />
         <Grid item xs>
-          <DeleteIcon onClick={() => deleteResource(resource)} />
+          <DeleteIcon onClick={() => deleteResource(idx)} />
         </Grid>
       </Grid>
     </Grid>
@@ -52,11 +54,7 @@ const ResourceLinkInput = ({ classes, resource, deleteResource, onChange }) => {
 
 const ResourceLinksForm = ({ classes, name, resources, onChange }) => {
 
-  const handleInputChange = (event) => {
-    // Value represents a row
-    resources = resources.map(res =>
-      res.uid === event.target.value.uid ? { ...event.target.value } : res
-    )
+  const propagateChangeEvent = (resources) => {
     let myEvent = {
       "target": {
         "name": name,
@@ -65,18 +63,36 @@ const ResourceLinksForm = ({ classes, name, resources, onChange }) => {
     };
 
     onChange(myEvent);
+  }
+
+  const handleInputChange = (event) => {
+    // Value represents a row
+    resources = resources.map( (res, idx) =>
+      idx === event.target.name ? { ...event.target.value } : res
+    )
+    propagateChangeEvent(resources);
   };
 
   const deleteResource = (selectedRes) => {
-    resources = resources.filter((res) => res !== selectedRes);
+    if (typeof selectedRes == 'number' ) {
+      resources = [ ...resources.slice(0, selectedRes), ...resources.slice(selectedRes + 1)]
+    } else {
+      resources = resources.filter((res) => res !== selectedRes);
+    }
+    propagateChangeEvent(resources);
   }
 
   return (
     <Grid container spacing={24}>
-      {resources.map(resource =>
-        <div key={resource.sid}>
-          <ResourceLinkInput resource={resource} deleteResource={deleteResource} onChange={handleInputChange} />
-        </div>
+      {resources.map((resource, idx) => {
+        let resourceWithIdx = {...resource, "_idx": idx}
+        return (
+          <div key={idx}>
+            <ResourceLinkInput idx={idx} resource={resourceWithIdx} 
+              onChange={handleInputChange} deleteResource={deleteResource}  />
+          </div>
+        )
+      }
       )}
     </Grid>
   )

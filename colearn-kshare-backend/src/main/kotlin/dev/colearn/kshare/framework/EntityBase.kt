@@ -37,7 +37,7 @@ open class EntityBase(
     @PrePersist
     fun prePersist() {
         if (uid == null) {
-            uid = UUID.randomUUID().toString();
+            uid = UUID.randomUUID().toString()
         }
     }
 
