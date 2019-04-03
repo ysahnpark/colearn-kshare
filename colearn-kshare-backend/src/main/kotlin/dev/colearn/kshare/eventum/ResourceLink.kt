@@ -17,7 +17,7 @@ class ResourceLink(
         val kind: String,
 
         @Column(name = "media_type") // E.g. youtube, google slides
-        val mediaType: String,
+        val mediaType: String? = null,
 
         @Column(name = "name")
         val name: String,
