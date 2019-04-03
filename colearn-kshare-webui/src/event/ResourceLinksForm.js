@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -17,28 +17,30 @@ const ResourceLinkInput = ({ classes, resource, deleteResource, onChange }) => {
 
   const handleInputChange = (event) => {
     resource = { ...resource, [event.target.name]: event.target.value };
-    let myEvent = new CustomEvent('change', { target: {
-      name: event.sid,
-      value: resource
-    }});
-    
+    let myEvent = {
+      "target": {
+        "name": event.uid,
+        "value": resource
+      }
+    };
+
     onChange(myEvent);
   };
-  
+
   return (
     <Grid container spacing={24}>
       <Grid item xs>
         <TextField
           id="kind" name="kind" label="Kind"
           value={resource.kind}
-          onChange={onChange}
+          onChange={handleInputChange}
         />
       </Grid>
       <Grid item xs>
         <TextField
           id="uri" name="uri" label="URL"
           value={resource.uri}
-          onChange={onChange}
+          onChange={handleInputChange}
         />
         <Grid item xs>
           <DeleteIcon onClick={() => deleteResource(resource)} />
@@ -52,12 +54,16 @@ const ResourceLinksForm = ({ classes, name, resources, onChange }) => {
 
   const handleInputChange = (event) => {
     // Value represents a row
-    event.target.value
-    let myEvent = new CustomEvent('change', { target: {
-      name: name,
-      value: resource
-    }});
-    
+    resources = resources.map(res =>
+      res.uid === event.target.value.uid ? { ...event.target.value } : res
+    )
+    let myEvent = {
+      "target": {
+        "name": name,
+        "value": resources
+      }
+    };
+
     onChange(myEvent);
   };
 
@@ -68,8 +74,8 @@ const ResourceLinksForm = ({ classes, name, resources, onChange }) => {
   return (
     <Grid container spacing={24}>
       {resources.map(resource =>
-        <div>
-          <ResourceLinkInput resource={resource} deleteResource={deleteResource} onChange={handleInputChange}/>
+        <div key={resource.sid}>
+          <ResourceLinkInput resource={resource} deleteResource={deleteResource} onChange={handleInputChange} />
         </div>
       )}
     </Grid>

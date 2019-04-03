@@ -41,9 +41,7 @@ const EventForm = ({ classes, origEvent, onSubmit }) => {
   };
 
   const handleInputChange = (event) => {
-    //event.persist();
     const { name, value } = event.target;
-    //setValues(values => ({ ...values, [name]: value }));
     setValues({ ...eventDetails, [name]: value });
   };
 
@@ -71,12 +69,11 @@ const EventForm = ({ classes, origEvent, onSubmit }) => {
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="age-simple">Age</InputLabel>
             <Select
-              id="status" name="status"
+              id="status" name="status" className={classes.selectEmpty}
               value={eventDetails.status}
               onChange={handleInputChange}
               input={<Input name="status" id="age-label-placeholder" />}
               displayEmpty
-              className={classes.selectEmpty}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -96,7 +93,7 @@ const EventForm = ({ classes, origEvent, onSubmit }) => {
         </Grid>
       </Grid>
 
-      <ResourceLinksForm id="resources" name="resources"  resources={origEvent.resources} onChange={handleInputChange}/>
+      <ResourceLinksForm id="resources" name="resources"  resources={eventDetails.resources} onChange={handleInputChange}/>
 
       <Grid container spacing={24}>
         <Grid item xs>

@@ -15,13 +15,13 @@
   "resources": [
     {
       "name": "GOTO 2017 - The Many Meanings of Event-Driven Architecture • Martin Fowler",
-      "kind": "Video2",
+      "kind": "Video",
       "mediaType": "YouTube",
       "uri": "https://www.youtube.com/watch?v=STKCRSUsyP0"
     },
     {
       "name": "What do you mean by 'Event-Driven'?",
-      "kind": "Article2",
+      "kind": "Article",
       "mediaType": "HTML",
       "uri": "https://martinfowler.com/articles/201701-event-driven.html"
     }

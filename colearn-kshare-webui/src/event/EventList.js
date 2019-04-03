@@ -86,13 +86,13 @@ const EventList = ({ classes, events, loadEvents, updateEvent, deleteEvent }) =>
             <CustomTableCell >
               {
                 event.resources.map(resource => (
-                  <a className={classes.link} href={resource.uri}>{resource.kind}</a>
+                  <a className={classes.link} href={resource.uri} key={resource.sid}>{resource.kind}</a>
                 ))
               }
             </CustomTableCell>
             <CustomTableCell >
-              <EventEditDialog event={event} updateEvent= {updateEvent}/>
-              <DeleteIcon className={classes.icon} onClick={()=>deleteEvent(event.uid)} />
+              <EventEditDialog event={event} updateEvent={updateEvent} />
+              <DeleteIcon className={classes.icon} onClick={() => deleteEvent(event.uid)} />
             </CustomTableCell>
           </TableRow>
         ))}

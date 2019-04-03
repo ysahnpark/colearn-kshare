@@ -13,22 +13,22 @@ import javax.persistence.*
 data class Event(
 
         @Column(name = "title")
-        val title: String,
+        var title: String,
 
         @Column(name = "synopsis")
-        val synopsis: String? = null,
+        var synopsis: String? = null,
 
         @Column(name = "description")
-        val description: String? = null,
+        var description: String? = null,
 
         @Column(name = "type")
-        val type: String? = null, // tech talk, open pane, etc.
+        var type: String? = null, // tech talk, open pane, etc.
 
         @Column(name = "start")
-        val start: Instant,
+        var start: Instant,
 
         @Column(name = "end")
-        val end: Instant,
+        var end: Instant,
 
         @ElementCollection
         @CollectionTable(name = "event_presenters",
@@ -37,25 +37,25 @@ data class Event(
         @Cascade(org.hibernate.annotations.CascadeType.DELETE)
 //        @OrderColumn
         @Column(name = "presenter")
-        val presenters: Set<String>? = null,
+        var presenters: Set<String>? = null,
 
         @Column(name = "status")
-        val status: String = "", // confirmed, tentative, etc
+        var status: String = "", // confirmed, tentative, etc
 
         @Column(name = "audience")
-        val audience: String? = null,
+        var audience: String? = null,
 
         @Column(name = "level")
-        val level: String? = null, // Beginner, intermediate, etc.
+        var level: String? = null, // Beginner, intermediate, etc.
 
         @Column(name = "venue")
-        val venue: String? = null,
+        var venue: String? = null,
 
         @Column(name = "link")
-        val link: String? = null,
+        var link: String? = null,
 
         @Column(name = "feedback")
-        val feedback: String? = null, // Feedback link
+        var feedback: String? = null, // Feedback link
 
         @OneToMany(cascade = [CascadeType.ALL])
         @JoinColumn(name = "event_uid")
