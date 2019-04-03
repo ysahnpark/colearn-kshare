@@ -53,14 +53,14 @@ class EventServiceImpl @Autowired constructor (
 
     override
     fun update(event: Event): Event {
-        if (event.sid == null) {
-            throw IllegalArgumentException("SID not provided")
+        if (event.uid == null) {
+            throw IllegalArgumentException("UID not provided")
         }
 
-        var foundEvent = eventRepository.findById(event.sid!!)
+        var foundEvent = eventRepository.findByUid(event.uid!!) ?: throw IllegalStateException("Event [$event.uid] Not Found")
         BeanUtils.copyProperties(event, foundEvent, "sid", "uid", "createdAt", "updatedAt")
 
-        return eventRepository.save(event)
+        return eventRepository.save(foundEvent)
     }
 
     override

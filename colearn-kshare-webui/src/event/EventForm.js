@@ -10,6 +10,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import ResourceLinksForm from './ResourceLinksForm'
+
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -93,6 +95,8 @@ const EventForm = ({ classes, origEvent, onSubmit }) => {
           />
         </Grid>
       </Grid>
+
+      <ResourceLinksForm id="resources" name="resources"  resources={origEvent.resources} onChange={handleInputChange}/>
 
       <Grid container spacing={24}>
         <Grid item xs>
