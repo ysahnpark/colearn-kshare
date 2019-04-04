@@ -10,6 +10,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import moment from 'moment'
+
 import ResourceLinksForm from './ResourceLinksForm'
 
 const styles = theme => ({
@@ -56,23 +58,13 @@ const EventForm = ({ classes, origEvent, onSubmit }) => {
           />
         </Grid>
         <Grid item xs>
-          <TextField
-            id="synopsis" name="synopsis" label="Synopsis" className={classes.textField}
-            value={eventDetails.synopsis}
-            onChange={handleInputChange}
-          />
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={24}>
-        <Grid item xs>
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="age-simple">Age</InputLabel>
+            <InputLabel htmlFor="status">Status</InputLabel>
             <Select
               id="status" name="status" className={classes.selectEmpty}
               value={eventDetails.status}
               onChange={handleInputChange}
-              input={<Input name="status" id="age-label-placeholder" />}
+              input={<Input name="status" id="status" />}
               displayEmpty
             >
               <MenuItem value="">
@@ -84,22 +76,58 @@ const EventForm = ({ classes, origEvent, onSubmit }) => {
             </Select>
           </FormControl>
         </Grid>
+      </Grid>
+
+      <Grid container spacing={24}>
         <Grid item xs>
           <TextField
-            id="venue" name="venue" label="Venue" className={classes.venue}
+            id="start" name="start" label="Start" type="datetime-local" className={classes.textField}
+            value={moment(eventDetails.start).format('YYYY-MM-DDThh:mm')}
+            onChange={handleInputChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs>
+          <TextField
+            id="end" name="end" label="End" type="datetime-local" className={classes.venue}
+            // defaultValue={eventDetails.end}
+            value={moment(eventDetails.end).format('YYYY-MM-DDThh:mm')}
+            onChange={handleInputChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <TextField
+            id="venue" name="venue" label="Venue" className={classes.textField}
             value={eventDetails.venue}
             onChange={handleInputChange}
           />
         </Grid>
       </Grid>
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <TextField
+            id="synopsis" name="synopsis" label="Synopsis" className={classes.textField}
+            value={eventDetails.synopsis}
+            onChange={handleInputChange}
+          />
+        </Grid>
+      </Grid>
 
-      <ResourceLinksForm id="resources" name="resources"  resources={eventDetails.resources} onChange={handleInputChange}/>
+      <ResourceLinksForm id="resources" name="resources" resources={eventDetails.resources} onChange={handleInputChange} />
 
       <Grid container spacing={24}>
         <Grid item xs>
           <Button color="primary"
             onClick={handleSubmit} >
-            Update
+            {(origEvent.uid) ? "Update" : "Create"}
           </Button>
         </Grid>
       </Grid>

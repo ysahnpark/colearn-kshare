@@ -7,11 +7,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import EventEditDialog from './EventEditDialog';
-
+import Tooltip from '@material-ui/core/Tooltip';
+import LoopIcon from '@material-ui/icons/Loop';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import moment from 'moment'
+
+import EventEditDialog from './EventEditDialog';
 
 
 const CustomTableCell = withStyles(theme => ({
@@ -31,7 +33,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
+    minWidth: 400,
   },
   row: {
     '&:nth-of-type(odd)': {
@@ -57,49 +59,82 @@ const rows = [
 ];
 */
 
-const EventList = ({ classes, events, loadEvents, updateEvent, deleteEvent }) => (
-  <Paper className={classes.root}>
-    <Table className={classes.table}>
-      <TableHead>
-        <TableRow>
-          <CustomTableCell>When</CustomTableCell>
-          <CustomTableCell align="center">Title</CustomTableCell>
-          <CustomTableCell align="center">Synopsis</CustomTableCell>
-          <CustomTableCell align="center">Presenters</CustomTableCell>
-          <CustomTableCell align="center">Status</CustomTableCell>
-          <CustomTableCell align="center">Venue</CustomTableCell>
-          <CustomTableCell align="center">Resources</CustomTableCell>
-          <CustomTableCell align="center">Action</CustomTableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {events.map(event => (
-          <TableRow className={classes.row} key={event.sid}>
-            <CustomTableCell component="th" >
-              {moment(event.start).format('MM/DD/YY h:mm')} ~ {moment(event.end).format('h:mm')}
-            </CustomTableCell>
-            <CustomTableCell >{event.title}</CustomTableCell>
-            <CustomTableCell >{event.synopsis}</CustomTableCell>
-            <CustomTableCell >{event.presenters}</CustomTableCell>
-            <CustomTableCell >{event.status}</CustomTableCell>
-            <CustomTableCell >{event.venue}</CustomTableCell>
-            <CustomTableCell >
-              {
-                event.resources.map(resource => (
-                  <a className={classes.link} href={resource.uri} key={resource.sid}>{resource.kind}</a>
-                ))
-              }
-            </CustomTableCell>
-            <CustomTableCell >
-              <EventEditDialog event={event} updateEvent={updateEvent} />
-              <DeleteIcon className={classes.icon} onClick={() => deleteEvent(event.uid)} />
+function EventList({ classes, events, loadEvents, addEvent, updateEvent, deleteEvent }) {
+
+  const emptyEvent = {
+    title: "",
+    synopsis: "",
+    description: "",
+    type: "",
+    start: "",
+    end: "",
+    presenters: [],
+    status: "",
+    audience: "",
+    level: "",
+    venue: "",
+    link: "",
+    feedback: "",
+    resources: []
+  };
+
+  return (
+    <Paper className={classes.root}>
+      <Table className={classes.table}>
+        <TableHead>
+          <TableRow>
+            <CustomTableCell colSpan={8} className={classes.row} align="right">
+              <Tooltip title="Reload">
+                <LoopIcon className={classes.icon} color="primary"></LoopIcon>
+              </Tooltip>
+
+              <EventEditDialog event={emptyEvent} addEvent={addEvent} updateEvent={updateEvent} />
+
+              {/* <Tooltip title="Add new Event">
+                <AddCircleIcon className={classes.icon} color="primary" ></AddCircleIcon>
+              </Tooltip> */}
             </CustomTableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </Paper>
-)
+          <TableRow>
+            <CustomTableCell align="center">When</CustomTableCell>
+            <CustomTableCell align="center">Title</CustomTableCell>
+            <CustomTableCell align="center">Synopsis</CustomTableCell>
+            <CustomTableCell align="center">Presenters</CustomTableCell>
+            <CustomTableCell align="center">Status</CustomTableCell>
+            <CustomTableCell align="center">Venue</CustomTableCell>
+            <CustomTableCell align="center">Resources</CustomTableCell>
+            <CustomTableCell align="center">Action</CustomTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {events.map(event => (
+            <TableRow className={classes.row} key={event.sid}>
+              <CustomTableCell component="th" >
+                {moment(event.start).format('MM/DD/YY h:mm')} ~ {moment(event.end).format('h:mm')}
+              </CustomTableCell>
+              <CustomTableCell >{event.title}</CustomTableCell>
+              <CustomTableCell >{event.synopsis}</CustomTableCell>
+              <CustomTableCell >{event.presenters}</CustomTableCell>
+              <CustomTableCell >{event.status}</CustomTableCell>
+              <CustomTableCell >{event.venue}</CustomTableCell>
+              <CustomTableCell >
+                {
+                  event.resources.map(resource => (
+                    <a className={classes.link} href={resource.uri} key={resource.sid}>{resource.kind}</a>
+                  ))
+                }
+              </CustomTableCell>
+              <CustomTableCell >
+                <EventEditDialog event={event} addEvent={addEvent} updateEvent={updateEvent} />
+                <DeleteIcon className={classes.icon} onClick={() => deleteEvent(event.uid)} />
+              </CustomTableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </Paper>
+  )
+}
 
 EventList.propTypes = {
   classes: PropTypes.object.isRequired,

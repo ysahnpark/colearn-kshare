@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const fetchCompleted = message => ({
   type: 'FETCH_COMPLETED',
   message
@@ -18,10 +20,12 @@ export const deleteEvent = (eventUid) => ({
   eventUid
 })
 
+const EVENTS_BASE_URL = "http://localhost:8080/api/v1/events"
+
 export function loadEventsAsync(url) {
   return (dispatch) => {
     if (!url) {
-      url = "http://localhost:8080/api/v1/events"
+      url = EVENTS_BASE_URL
     }
     return fetch(url)
       .then((response) => {
@@ -37,11 +41,40 @@ export function loadEventsAsync(url) {
   }
 }
 
+
+export function addEventAsync(event, url) {
+  return (dispatch) => {
+    if (!url) {
+      url = EVENTS_BASE_URL
+    }
+    event.start = moment(event.start).toISOString()
+    event.end = moment(event.end).toISOString()
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(event),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response;
+      })
+      .then((response) => response.json())
+      .then((json) => loadEventsAsync()(dispatch))
+      .catch((error) => dispatch(fetchCompleted("Error: " + error)));
+  }
+}
+
 export function updateEventAsync(event, url) {
   return (dispatch) => {
     if (!url) {
-      url = "http://localhost:8080/api/v1/events/" + event.uid
+      url = EVENTS_BASE_URL + "/" + event.uid
     }
+    event.start = moment(event.start).toISOString()
+    event.end = moment(event.end).toISOString()
     return fetch(url, {
       method: 'PUT',
       body: JSON.stringify(event),
@@ -64,7 +97,7 @@ export function updateEventAsync(event, url) {
 export function deleteEventAsync(eventUid, url) {
   return (dispatch) => {
     if (!url) {
-      url = "http://localhost:8080/api/v1/events/" + eventUid
+      url = EVENTS_BASE_URL + "/" + eventUid
     }
     return fetch(url, {
       method: 'DELETE',

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import EventList from './EventList'
-import { loadEventsAsync, updateEventAsync, deleteEventAsync } from './actions'
+import { loadEventsAsync, addEventAsync, updateEventAsync, deleteEventAsync } from './actions'
 import { VisibilityFilters } from './actions'
 
 
@@ -23,6 +23,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadEvents: () => dispatch(loadEventsAsync()),
+  addEvent: (event) => dispatch(addEventAsync(event)),
   updateEvent: (event) => dispatch(updateEventAsync(event)),
   deleteEvent: (eventUid) => dispatch(deleteEventAsync(eventUid))
 })

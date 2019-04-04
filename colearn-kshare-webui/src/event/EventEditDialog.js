@@ -5,25 +5,29 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 
 import EventForm from './EventForm';
 
-export default function EventEditDialog({event, updateEvent}) {
+export default function EventEditDialog({event, addEvent, updateEvent}) {
 
   const [isOpen, setIsOpen] = useState(false);
   
   return (
     <div style={{display : 'inline-block'}} >
-      <EditIcon onClick={()=>setIsOpen(true)} />
+      {(event.uid) ? <EditIcon onClick={()=>setIsOpen(true)} color="primary" />
+        : <AddCircleIcon onClick={()=>setIsOpen(true)}  color="primary" ></AddCircleIcon>}
+
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
         aria-labelledby="form-dialog-title" >
 
-        <DialogTitle id="form-dialog-title">Edit Event {event.sid}</DialogTitle>
+        <DialogTitle id="form-dialog-title">{(event.uid) ? "Edit":"Create"} Event {event.sid}</DialogTitle>
         <DialogContent>
-          <EventForm origEvent={event} onSubmit={updateEvent} />
+          {/* If event.uid is not empty, it is editingmode, assign updateEvent to onSumbit , else addEvent */}
+          <EventForm origEvent={event} onSubmit={(event.uid) ? updateEvent : addEvent} />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsOpen(false)} color="primary">
