@@ -59,6 +59,10 @@ const rows = [
 ];
 */
 
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+tomorrow.setHours(8, 0, 0, 0);
+
 function EventList({ classes, events, loadEvents, addEvent, updateEvent, deleteEvent }) {
 
   const emptyEvent = {
@@ -66,10 +70,10 @@ function EventList({ classes, events, loadEvents, addEvent, updateEvent, deleteE
     synopsis: "",
     description: "",
     type: "",
-    start: "",
-    end: "",
+    start: tomorrow.toISOString(),
+    end: tomorrow.toISOString(),
     presenters: [],
-    status: "",
+    status: "tentative",
     audience: "",
     level: "",
     venue: "",
