@@ -27,6 +27,8 @@ export function loadEventsAsync(url) {
     if (!url) {
       url = EVENTS_BASE_URL
     }
+    let now = new Date();
+    url += "?from=" + now.toISOString() + "&sort=start,desc"
     return fetch(url)
       .then((response) => {
         if (!response.ok) {
