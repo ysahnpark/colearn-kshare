@@ -20,13 +20,16 @@ export const deleteEvent = (eventUid) => ({
   eventUid
 })
 
-// TODO: Replace TEST with the realm name.
-const EVENTS_BASE_URL = "http://localhost:8080/api/v1/TEST/events"
+// TODO: Parameterize base URL from ENV
+function eventsBaseUrl(realmId) {
+  if (!realmId) realmId = "UNDEF_REALM"
+  return "http://localhost:8080/api/v1/" + realmId  +"/events";
+}
 
-export function loadEventsAsync(url) {
+export function loadEventsAsync(realmId, url) {
   return (dispatch) => {
     if (!url) {
-      url = EVENTS_BASE_URL
+      url = eventsBaseUrl(realmId)
     }
     let now = new Date();
     url += "?from=" + now.toISOString() + "&sort=start,desc"
@@ -45,10 +48,10 @@ export function loadEventsAsync(url) {
 }
 
 
-export function addEventAsync(event, url) {
+export function addEventAsync(event, realmId, url) {
   return (dispatch) => {
     if (!url) {
-      url = EVENTS_BASE_URL
+      url = eventsBaseUrl(realmId)
     }
     event.start = moment(event.start).toISOString()
     event.end = moment(event.end).toISOString()
@@ -66,15 +69,15 @@ export function addEventAsync(event, url) {
         return response;
       })
       .then((response) => response.json())
-      .then((json) => loadEventsAsync()(dispatch))
+      .then((json) => loadEventsAsync(realmId)(dispatch))
       .catch((error) => dispatch(fetchCompleted("Error: " + error)));
   }
 }
 
-export function updateEventAsync(event, url) {
+export function updateEventAsync(event, realmId, url) {
   return (dispatch) => {
     if (!url) {
-      url = EVENTS_BASE_URL + "/" + event.uid
+      url = eventsBaseUrl(realmId) + "/" + event.uid
     }
     event.start = moment(event.start).toISOString()
     event.end = moment(event.end).toISOString()
@@ -97,10 +100,10 @@ export function updateEventAsync(event, url) {
   }
 }
 
-export function deleteEventAsync(eventUid, url) {
+export function deleteEventAsync(eventUid, realmId, url) {
   return (dispatch) => {
     if (!url) {
-      url = EVENTS_BASE_URL + "/" + eventUid
+      url = eventsBaseUrl(realmId) + "/" + eventUid
     }
     return fetch(url, {
       method: 'DELETE',

@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux'
-import { loadEventsAsync } from './event/actions'
+import thunk from 'redux-thunk';
 import rootReducer from './event/reducer'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -16,7 +15,7 @@ const store = createStore(
   )
 )
 
-store.dispatch(loadEventsAsync());
+// store.dispatch(loadEventsAsync());  --> refactored to EventList.js
 
 ReactDOM.render(
   <Provider store={store}>

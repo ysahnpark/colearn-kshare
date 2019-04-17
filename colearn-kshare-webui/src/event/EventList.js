@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -63,7 +63,12 @@ var tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 tomorrow.setHours(8, 0, 0, 0);
 
-function EventList({ classes, events, loadEvents, addEvent, updateEvent, deleteEvent }) {
+// prop.match comes from React-Route
+// realmId can be obtained from match.params.realmId (defined in AppRouter.js)
+// The {action}Event(s) funtsion are dispatch functions
+function EventList({ match, classes, events, loadEvents, addEvent, updateEvent, deleteEvent }) {
+
+  const realmId = match.params.realmId;
 
   const emptyEvent = {
     title: "",
@@ -82,6 +87,20 @@ function EventList({ classes, events, loadEvents, addEvent, updateEvent, deleteE
     resources: []
   };
 
+  useEffect(async () => {
+    await loadEvents(match.params.realmId)
+  }, []);
+
+  const addEventWithRealm = (event) => {
+    addEvent(event, realmId)
+  }
+  const updateEventWithRealm = (event) => {
+    updateEvent(event, realmId)
+  }
+  const deleteEventWithRealm = (eventId) => {
+    deleteEvent(eventId, realmId)
+  }
+
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -92,7 +111,8 @@ function EventList({ classes, events, loadEvents, addEvent, updateEvent, deleteE
                 <LoopIcon className={classes.icon} color="primary"></LoopIcon>
               </Tooltip>
 
-              <EventEditDialog event={emptyEvent} addEvent={addEvent} updateEvent={updateEvent} />
+              <EventEditDialog event={emptyEvent} addEvent={addEventWithRealm} 
+                updateEvent={updateEventWithRealm} />
 
               {/* <Tooltip title="Add new Event">
                 <AddCircleIcon className={classes.icon} color="primary" ></AddCircleIcon>
@@ -129,8 +149,8 @@ function EventList({ classes, events, loadEvents, addEvent, updateEvent, deleteE
                 }
               </CustomTableCell>
               <CustomTableCell >
-                <EventEditDialog event={event} addEvent={addEvent} updateEvent={updateEvent} />
-                <DeleteIcon className={classes.icon} onClick={() => deleteEvent(event.uid)} />
+                <EventEditDialog event={event} addEvent={addEventWithRealm} updateEvent={updateEventWithRealm} />
+                <DeleteIcon className={classes.icon} onClick={() => deleteEventWithRealm(event.uid)} />
               </CustomTableCell>
             </TableRow>
           ))}

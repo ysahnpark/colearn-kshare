@@ -22,10 +22,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadEvents: () => dispatch(loadEventsAsync()),
-  addEvent: (event) => dispatch(addEventAsync(event)),
-  updateEvent: (event) => dispatch(updateEventAsync(event)),
-  deleteEvent: (eventUid) => dispatch(deleteEventAsync(eventUid))
+  loadEvents: (realmId) => dispatch(loadEventsAsync(realmId)),
+  addEvent: (event, realmId) => dispatch(addEventAsync(event, realmId)),
+  updateEvent: (event, realmId) => dispatch(updateEventAsync(event, realmId)),
+  deleteEvent: (eventUid, realmId) => dispatch(deleteEventAsync(eventUid, realmId))
 })
 
 export default connect(
