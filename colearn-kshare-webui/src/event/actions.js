@@ -20,7 +20,8 @@ export const deleteEvent = (eventUid) => ({
   eventUid
 })
 
-const EVENTS_BASE_URL = "http://localhost:8080/api/v1/events"
+// TODO: Replace TEST with the realm name.
+const EVENTS_BASE_URL = "http://localhost:8080/api/v1/TEST/events"
 
 export function loadEventsAsync(url) {
   return (dispatch) => {

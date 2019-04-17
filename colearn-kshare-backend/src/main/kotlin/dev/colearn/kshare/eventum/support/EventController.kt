@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.*
 import java.time.Instant
 
 @RestController
-@RequestMapping("/api/v1/events")
+@RequestMapping("/api/v1/{realmId}/events")
 class EventController @Autowired constructor(val eventService: EventService) {
 
     @GetMapping(value = [""], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun getEvents(@RequestParam(required = false) types: Set<String>?,
+    fun getEvents(@PathVariable(required = false) realmId: String,
+                  @RequestParam(required = false) types: Set<String>?,
                   @RequestParam(required = false) from: Instant? = null,
                   @RequestParam(required = false) to: Instant? = null,
                   @PageableDefault(size = 20) pageable: Pageable): Page<Event> {
@@ -23,23 +24,27 @@ class EventController @Autowired constructor(val eventService: EventService) {
     }
 
     @GetMapping(value = ["/{uid}"], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun getEvent(@PathVariable uid: String): Event? {
+    fun getEvent(@PathVariable(required = false) realmId: String,
+                 @PathVariable uid: String): Event? {
         return eventService.find(uid)
     }
 
     @PostMapping(value = [""], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun addEvent(@RequestBody event: Event): Event {
+    fun addEvent(@PathVariable(required = false) realmId: String,
+                 @RequestBody event: Event): Event {
         return eventService.add(event)
     }
 
     @PutMapping(value = ["/{uid}"], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun updateEvent(@PathVariable uid: String, @RequestBody event: Event): Event? {
+    fun updateEvent(@PathVariable(required = false) realmId: String,
+                    @PathVariable uid: String, @RequestBody event: Event): Event? {
         event.uid = uid
         return eventService.update(event)
     }
 
     @DeleteMapping(value = ["/{uid}"], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun deleteEvent(@PathVariable uid: String): Event {
+    fun deleteEvent(@PathVariable(required = false) realmId: String,
+                    @PathVariable uid: String): Event {
         return eventService.deleteByUid(uid)
     }
 }

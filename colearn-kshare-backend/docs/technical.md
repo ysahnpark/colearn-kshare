@@ -17,3 +17,4 @@ Change the db URL to `jdbc:h2:mem:testdb`, otherwise you will se no tables
 
 ## `var` for fields in entity `data class`es to make it simple the update process
 As I am using BeanUtils.copyProperties to copy new attributes to the JPA retrieved object
+

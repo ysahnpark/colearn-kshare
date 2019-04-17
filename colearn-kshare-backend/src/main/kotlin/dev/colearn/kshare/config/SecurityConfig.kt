@@ -13,6 +13,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override
     fun configure(http: HttpSecurity) {
+        System.out.println("* SecurityConfig.configure invoked")
         http.headers().frameOptions().sameOrigin() // to allow iframes
                 .and().cors().and().csrf().disable()
                 .authorizeRequests().antMatchers("/**").permitAll()

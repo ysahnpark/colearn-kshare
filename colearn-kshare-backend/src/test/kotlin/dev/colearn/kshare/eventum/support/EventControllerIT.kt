@@ -46,7 +46,7 @@ class EventControllerIT (
         val testUid = "TEST-UID1"
         Mockito.`when`(eventService.find(testUid)).thenReturn(stubResponse)
 
-        val entity = restTemplate.getForEntity("/api/v1/events/$testUid", Event::class.java)
+        val entity = restTemplate.getForEntity("/api/v1/MyRealm/events/$testUid", Event::class.java)
         assertThat(entity.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(entity.body).isEqualToComparingFieldByFieldRecursively(stubResponse)
     }

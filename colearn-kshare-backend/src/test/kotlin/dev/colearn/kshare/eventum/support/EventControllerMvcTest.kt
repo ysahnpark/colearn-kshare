@@ -3,6 +3,7 @@ package dev.colearn.kshare.eventum.support
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import dev.colearn.kshare.eventum.Event
+import dev.colearn.kshare.realm.support.RealmService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.Instant
 
@@ -26,6 +28,9 @@ class EventControllerMvcTest(
 ) {
 
     val objectMapper = jacksonObjectMapper()
+
+    @MockBean
+    private lateinit var realmService: RealmService
 
     @MockBean
     private lateinit var eventService: EventService
@@ -46,9 +51,10 @@ class EventControllerMvcTest(
         Mockito.`when`(eventService.find(testUid)).thenReturn(stubResponse)
 
         // Similar API? org.springframework.mock.http.server.reactive.MockServerHttpRequest
-        mockMvc.perform(get("/api/v1/events/$testUid")
+        mockMvc.perform(get("/api/v1/MyRealm/events/$testUid")
                 .header(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE)
-        ).andExpect(status().is2xxSuccessful)
+        ).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().is2xxSuccessful)
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect { it ->
                     val actual = objectMapper.readValue<Event>(it.response.contentAsString)

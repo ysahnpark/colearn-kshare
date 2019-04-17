@@ -1,0 +1,11 @@
+{
+  "key": "TEST",
+  "name": "TEST Event",
+  "synopsis": "This is a test event in JSON",
+  "description":  "ditto",
+  "type": "test",
+  "status": "confirmed",
+  "audience":  "everyone",
+  "link": "http://localhost",
+  "config": "{\"communication\": {\"slack\": \"https://hooks.slack.com/services/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\"}}"
+}

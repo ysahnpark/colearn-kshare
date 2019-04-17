@@ -14,19 +14,21 @@ function Suggest() {
   return <h2>Suggest</h2>;
 }
 
-function AppRouter() {
+// TODO: allow realmId in the router path
+function AppRouter(props) {
   return (
     <Router>
       <div>
         <nav>
-              <Button><Link component={RouterLink} to="/" variant="body2">Browse</Link></Button>
-              <Button><Link component={RouterLink} to="/offer-event/" variant="body2">Offer</Link></Button>
-              <Button><Link component={RouterLink} to="/suggest-event/">Suggest</Link></Button>
+          {/* TODO: Replace TEST with Realm parameter */}
+              <Button><Link component={RouterLink} to="/TEST/browse" variant="body2">Browse</Link></Button>
+              <Button><Link component={RouterLink} to="/TEST/offer-event/" variant="body2">Offer</Link></Button>
+              <Button><Link component={RouterLink} to="/TEST/suggest-event/">Suggest</Link></Button>
         </nav>
 
-        <Route path="/" exact component={VisibleEventList} />
-        <Route path="/offer-event/" component={Offer} />
-        <Route path="/suggest-event/" component={Suggest} />
+        <Route path="/:realmId/browse" exact component={VisibleEventList} />
+        <Route path="/:realmId/offer-event/" component={Offer} />
+        <Route path="/:realmId/suggest-event/" component={Suggest} />
       </div>
     </Router>
   );

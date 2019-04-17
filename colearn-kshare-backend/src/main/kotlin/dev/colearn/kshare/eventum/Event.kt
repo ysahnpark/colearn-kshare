@@ -12,6 +12,9 @@ import javax.persistence.*
 @Table(name = "event")
 data class Event(
 
+        @Column(name = "realm_uid")
+        var realmUid: String? = null,
+
         @Column(name = "title")
         var title: String,
 

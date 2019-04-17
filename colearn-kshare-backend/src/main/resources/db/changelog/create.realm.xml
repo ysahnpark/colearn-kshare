@@ -1,0 +1,43 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create.realm" author="ysahn">
+        <createTable tableName="realm">
+
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="uid" type="varchar(120)"/>
+            <column name="crated_at" type="timestamp with time zone"/>
+            <column name="updated_at" type="timestamp with time zone"/>
+
+            <column name="key" type="varchar(30)" >
+                <constraints unique="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="varchar(255)"/>
+            <column name="synopsis" type="text"/>
+            <column name="description" type="text"/>
+            <column name="type" type="varchar(20)"/>
+            <column name="status" type="varchar(20)"/>
+            <column name="audience" type="text"/>
+            <column name="link" type="varchar(255)"/>
+            <column name="config" type="text"/>
+
+        </createTable>
+
+        <createIndex indexName="realm_uid_idx"
+                     tableName="realm" unique="true">
+            <column name="uid"/>
+        </createIndex>
+
+        <createIndex indexName="realm_key_idx"
+                     tableName="realm" unique="true">
+            <column name="key"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

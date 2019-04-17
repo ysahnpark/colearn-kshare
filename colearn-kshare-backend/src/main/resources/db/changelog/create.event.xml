@@ -14,6 +14,8 @@
             <column name="crated_at" type="timestamp with time zone"/>
             <column name="updated_at" type="timestamp with time zone"/>
 
+            <column name="realm_uid" type="varchar(120)"/>
+
             <column name="title" type="varchar(255)"/>
             <column name="synopsis" type="text"/>
             <column name="description" type="text"/>
