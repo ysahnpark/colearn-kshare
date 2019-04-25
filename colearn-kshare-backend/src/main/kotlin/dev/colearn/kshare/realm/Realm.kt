@@ -31,8 +31,23 @@ data class Realm(
         @Column(name = "audience")
         var audience: String? = null,
 
+        @Column(name = "location")
+        var location: String? = null,
+
+        @Column(name = "country")
+        var country: String? = null,
+
+        @Column(name = "language")
+        var language: String? = null,
+
         @Column(name = "link")
         var link: String? = null,
+
+        @Column(name = "card_image")
+        var cardImage: String? = null, // square image used on icons. Up to 300 x 300
+
+        @Column(name = "cover_image")
+        var coverImage: String? = null, // rectangular image used for cover.
 
         @Column(name = "config")
         var config: String? = null // config in JSON

@@ -1,7 +1,7 @@
 import React from "react";
 
 import VisibleEventList from './event/VisibleEventList';
-import { matchPath, BrowserRouter as Router, Route, Link as RouterLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link as RouterLink } from "react-router-dom";
 import Link from '@material-ui/core/Link';
 
 import Button from '@material-ui/core/Button';
@@ -14,16 +14,10 @@ function Suggest() {
   return <h2>Suggest</h2>;
 }
 
-const match = matchPath(window.location.pathname, {
-  path: "/:realmId/",
-  exact: false,
-  strict: false
-});
-
-console.log(JSON.stringify(match));
 
 // TODO: allow realmId in the router path
-function AppRouter(props) {
+function AppRouter({match}) {
+
   return (
     <Router>
       <div>

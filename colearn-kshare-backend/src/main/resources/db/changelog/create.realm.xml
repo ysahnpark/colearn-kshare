@@ -23,8 +23,13 @@
             <column name="description" type="text"/>
             <column name="type" type="varchar(20)"/>
             <column name="status" type="varchar(20)"/>
-            <column name="audience" type="text"/>
+            <column name="audience" type="varchar(20)"/>
+            <column name="location" type="varchar(255)"/>
+            <column name="country" type="varchar(12)"/>
+            <column name="language" type="varchar(12)"/>
             <column name="link" type="varchar(255)"/>
+            <column name="card_image" type="varchar(255)"/>
+            <column name="cover_image" type="varchar(255)"/>
             <column name="config" type="text"/>
 
         </createTable>

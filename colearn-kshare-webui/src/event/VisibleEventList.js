@@ -17,8 +17,10 @@ const getVisibleEvents = (events, filter) => {
   }
 }
 
-const mapStateToProps = state => ({
-  events: getVisibleEvents(state.events, state.visibilityFilter)
+// NOTE: If the state structure changes, make sure to reflect it as parameter
+// See ./index.js for the namespace used for the eventReducer when building the rootReducer
+const mapStateToProps = ({eventReducer}) => ({
+  events: getVisibleEvents(eventReducer.events, eventReducer.visibilityFilter)
 })
 
 const mapDispatchToProps = dispatch => ({

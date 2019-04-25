@@ -2,12 +2,15 @@ package dev.colearn.kshare.config
 
 import dev.colearn.kshare.realm.support.RealmLoaderFilter
 import dev.colearn.kshare.realm.support.RealmService
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+
+private val logger = KotlinLogging.logger {}
 
 @Configuration
 class FilterConfig : WebMvcConfigurer {
@@ -24,7 +27,7 @@ class FilterConfig : WebMvcConfigurer {
         //registration.addInitParameter("paramName", "paramValue");
         registration.setOrder(Ordered.HIGHEST_PRECEDENCE)
 
-        System.out.println ("RealmLoaderFilter registered!!")
+        logger.info ("RealmLoaderFilter registered!!")
 
         return registration
     }

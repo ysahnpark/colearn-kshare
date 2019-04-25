@@ -19,9 +19,9 @@ class RealmController @Autowired constructor(val realmService: RealmService) {
         return realmService.findAll(types, pageable)
     }
 
-    @GetMapping(value = ["/{uid}"], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
-    fun getRealm(@PathVariable uid: String): Realm? {
-        return realmService.find(uid)
+    @GetMapping(value = ["/{id}"], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+    fun getRealm(@PathVariable id: String): Realm? {
+        return realmService.findByKey(id) ?: realmService.find(id)
     }
 
     @PostMapping(value = [""], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])

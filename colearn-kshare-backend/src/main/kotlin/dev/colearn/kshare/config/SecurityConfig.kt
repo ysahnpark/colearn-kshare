@@ -1,5 +1,6 @@
 package dev.colearn.kshare.config
 
+import mu.KotlinLogging
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -8,17 +9,20 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
+private val logger = KotlinLogging.logger {}
+
 @Configuration
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     override
     fun configure(http: HttpSecurity) {
-        System.out.println("* SecurityConfig.configure invoked")
         http.headers().frameOptions().sameOrigin() // to allow iframes
                 .and().cors().and().csrf().disable()
                 .authorizeRequests().antMatchers("/**").permitAll()
         //.authorizeRequests().antMatchers("/api/users/v1/login", "/api/users/v1/register").permitAll()
         //.anyRequest().authenticated()
+
+        logger.info("Configuration for security completed")
     }
 
     // @see: https://docs.spring.io/spring-security/site/docs/current/reference/html/cors.html

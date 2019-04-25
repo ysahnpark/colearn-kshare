@@ -1,5 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux'
+import { loadRealmAsync, updateRealmAsync, deleteRealmAsync } from '../realm/actions'
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -45,7 +49,7 @@ const styles = theme => ({
     width: theme.spacing.unit * 9,
     height: '100%',
     position: 'absolute',
-    pointerEvents: 'none',
+    pointerRealms: 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -70,17 +74,29 @@ const styles = theme => ({
   },
 });
 
+// prop.match comes from React-Route
+// realmId can be obtained from match.params.realmId (defined in AppRouter.js)
+// The {action}Event(s) funtsion are dispatch functions
 function SearchAppBar(props) {
-  const { classes } = props;
+
+  const { match, classes, loadRealm } = props;
+
+
+  useEffect(() => {
+    // loadRealm(match.params.realmId);
+  }, []);
+
+
   return (
     <div className={classes.root}>
+      { match.params.realmId }
       <AppBar position="static">
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-            K-Events
+            K-Realms
           </Typography>
           <div className={classes.grow} />
           <div className={classes.search}>
@@ -105,4 +121,22 @@ SearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SearchAppBar);
+
+// NOTE: If the state structure changes, make sure to reflect it as parameter
+// See ./index.js for the namespace used for the realmReducer when building the rootReducer
+const mapStateToProps = ({realmReducer}) => ({
+  realm: realmReducer
+})
+
+const mapDispatchToProps = dispatch => ({
+  loadRealm: (realmId) => dispatch(loadRealmAsync(realmId)),
+  updateRealm: (realm, realmId) => dispatch(updateRealmAsync(realm, realmId)),
+  deleteRealm: (realmUid, realmId) => dispatch(deleteRealmAsync(realmUid, realmId))
+})
+
+const ConnectedAppBar = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchAppBar);
+
+export default withStyles(styles)(ConnectedAppBar);

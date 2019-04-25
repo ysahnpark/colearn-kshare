@@ -87,18 +87,18 @@ function EventList({ match, classes, events, loadEvents, addEvent, updateEvent, 
     resources: []
   };
 
-  useEffect(async () => {
-    await loadEvents(match.params.realmId)
+  useEffect(() => {
+    loadEvents(match.params.realmId);
   }, []);
 
   const addEventWithRealm = (event) => {
-    addEvent(event, realmId)
+    addEvent(event, realmId);
   }
   const updateEventWithRealm = (event) => {
-    updateEvent(event, realmId)
+    updateEvent(event, realmId);
   }
   const deleteEventWithRealm = (eventId) => {
-    deleteEvent(eventId, realmId)
+    deleteEvent(eventId, realmId);
   }
 
   return (

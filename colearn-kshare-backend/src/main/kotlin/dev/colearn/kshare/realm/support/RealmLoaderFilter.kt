@@ -1,11 +1,11 @@
 package dev.colearn.kshare.realm.support
 
+import mu.KotlinLogging
 import org.springframework.util.AntPathMatcher
-import org.springframework.web.servlet.HandlerMapping
-import org.springframework.web.util.pattern.PathPatternParser
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
 
+private val logger = KotlinLogging.logger {}
 
 class RealmLoaderFilter(val realmService: RealmService) : Filter {
 
@@ -17,13 +17,13 @@ class RealmLoaderFilter(val realmService: RealmService) : Filter {
 
     override fun init(filterConfig: FilterConfig?) {
         super.init(filterConfig)
-        System.out.println ("RealmLoaderFilter.init called")
+        logger.info("RealmLoaderFilter.init called")
     }
 
 
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
 
-        System.out.println ("RealmLoaderFilter.doFilter called")
+        logger.info("RealmLoaderFilter.doFilter called")
         val realmId = extractRealmIdFromPath(request!!)
 
         if (realmId != null) {
@@ -43,7 +43,7 @@ class RealmLoaderFilter(val realmService: RealmService) : Filter {
 
         // TODO: return null if the pathParameter is actually "realms"
         return if (apMatcher.match(PATH_PATTERN, req.servletPath))
-                apMatcher.extractUriTemplateVariables(PATH_PATTERN, req.servletPath).getOrDefault(REALM_ID, null)
-            else null
+            apMatcher.extractUriTemplateVariables(PATH_PATTERN, req.servletPath).getOrDefault(REALM_ID, null)
+        else null
     }
 }

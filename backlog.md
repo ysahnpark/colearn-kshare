@@ -1,15 +1,12 @@
 CoLearn Backlog
 ===============
 
-- Event pagination
+- Realm (tenant): Edit profile, Display
 - Event full-text search
 - Event Calendar view
+- Event Comments
 - Integration with Slack
-- Realm (tenant)
-- Feature: Topics - suggest/offer
+- Feature: Forum: Topics - composition/statement (suggest/offer)
 - User & permission
 - Authentication & Authorization (with OAuth) 
-- Feature: Comments
 - Feature: Q&A
-
-

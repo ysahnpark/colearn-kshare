@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware, compose, combineReducers} from 'redux'
 import thunk from 'redux-thunk';
-import rootReducer from './event/reducer'
+import eventReducer from './event/reducer'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+const rootReducer = combineReducers({
+  eventReducer
+})
+
 
 const store = createStore(
   rootReducer,

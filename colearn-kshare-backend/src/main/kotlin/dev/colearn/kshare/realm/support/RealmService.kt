@@ -11,4 +11,8 @@ interface RealmService {
     fun add(realm: Realm): Realm
     fun update(realm: Realm): Realm
     fun deleteByUid(realmUid: String): Realm
+
+    companion object {
+        const val HOST_KEY: String = "HOST"
+    }
 }
