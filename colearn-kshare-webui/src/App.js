@@ -4,7 +4,7 @@ import { matchPath } from "react-router-dom";
 import AppRouter from './AppRouter';
 import AppBar from './layout/AppBar';
 
-
+// match contains the path in structured form
 const match = matchPath(window.location.pathname, {
   path: "/:realmId/",
   exact: false,

@@ -23,16 +23,19 @@ export const deleteEvent = (eventUid) => ({
 // TODO: Parameterize base URL from ENV
 function eventsBaseUrl(realmId) {
   if (!realmId) realmId = "UNDEF_REALM"
-  return "http://localhost:8080/api/v1/" + realmId  +"/events";
+  return "http://localhost:8080/api/v1/" + realmId + "/events";
 }
 
-export function loadEventsAsync(realmId, url) {
+export function loadEventsAsync(realmId, queryString, url) {
   return (dispatch) => {
     if (!url) {
       url = eventsBaseUrl(realmId)
+      if (!queryString) {
+        let now = new Date();
+        queryString += "?from=" + now.toISOString() + "&sort=start,desc"
+      }
+      url += queryString;
     }
-    let now = new Date();
-    url += "?from=" + now.toISOString() + "&sort=start,desc"
     return fetch(url)
       .then((response) => {
         if (!response.ok) {

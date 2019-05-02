@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux'
-import { loadRealmAsync, updateRealmAsync, deleteRealmAsync } from '../realm/actions'
+import { loadRealmAsync, updateRealmAsync } from '../realm/actions'
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -79,24 +79,23 @@ const styles = theme => ({
 // The {action}Event(s) funtsion are dispatch functions
 function SearchAppBar(props) {
 
-  const { match, classes, loadRealm } = props;
-
+  const { match, classes, realm, loadRealm } = props;
 
   useEffect(() => {
-    // loadRealm(match.params.realmId);
+    loadRealm(match.params.realmId);
   }, []);
 
 
   return (
     <div className={classes.root}>
-      { match.params.realmId }
+      {/* { match.params.realmId } */}
       <AppBar position="static">
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-            K-Realms
+            {realm.name }
           </Typography>
           <div className={classes.grow} />
           <div className={classes.search}>
@@ -125,13 +124,12 @@ SearchAppBar.propTypes = {
 // NOTE: If the state structure changes, make sure to reflect it as parameter
 // See ./index.js for the namespace used for the realmReducer when building the rootReducer
 const mapStateToProps = ({realmReducer}) => ({
-  realm: realmReducer
+  realm: realmReducer.realm
 })
 
 const mapDispatchToProps = dispatch => ({
   loadRealm: (realmId) => dispatch(loadRealmAsync(realmId)),
-  updateRealm: (realm, realmId) => dispatch(updateRealmAsync(realm, realmId)),
-  deleteRealm: (realmUid, realmId) => dispatch(deleteRealmAsync(realmUid, realmId))
+  updateRealm: (realm, realmId) => dispatch(updateRealmAsync(realm, realmId))
 })
 
 const ConnectedAppBar = connect(

@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -88,7 +89,7 @@ function EventList({ match, classes, events, loadEvents, addEvent, updateEvent, 
   };
 
   useEffect(() => {
-    loadEvents(match.params.realmId);
+    loadEvents(match.params.realmId, window.location.search);
   }, []);
 
   const addEventWithRealm = (event) => {
@@ -101,17 +102,21 @@ function EventList({ match, classes, events, loadEvents, addEvent, updateEvent, 
     deleteEvent(eventId, realmId);
   }
 
+  let now = new Date();
+
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <CustomTableCell colSpan={8} className={classes.row} align="right">
+              <Button><a href={"?sort=start,asc&from=" + now.toISOString() }>Oncoming</a></Button>
+              <Button><a href={"?sort=start,desc&to=" + now.toISOString() }>Past</a></Button>
               <Tooltip title="Reload">
                 <LoopIcon className={classes.icon} color="primary"></LoopIcon>
               </Tooltip>
 
-              <EventEditDialog event={emptyEvent} addEvent={addEventWithRealm} 
+              <EventEditDialog event={emptyEvent} addEvent={addEventWithRealm}
                 updateEvent={updateEventWithRealm} />
 
               {/* <Tooltip title="Add new Event">

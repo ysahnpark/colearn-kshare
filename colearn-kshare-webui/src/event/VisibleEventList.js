@@ -24,7 +24,7 @@ const mapStateToProps = ({eventReducer}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loadEvents: (realmId) => dispatch(loadEventsAsync(realmId)),
+  loadEvents: (realmId, queryString) => dispatch(loadEventsAsync(realmId, queryString)),
   addEvent: (event, realmId) => dispatch(addEventAsync(event, realmId)),
   updateEvent: (event, realmId) => dispatch(updateEventAsync(event, realmId)),
   deleteEvent: (eventUid, realmId) => dispatch(deleteEventAsync(eventUid, realmId))
