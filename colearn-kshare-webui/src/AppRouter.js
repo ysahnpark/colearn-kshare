@@ -1,6 +1,7 @@
 import React from "react";
 
 import VisibleEventList from './event/VisibleEventList';
+import EventDetails from './event/EventDetails';
 import { BrowserRouter as Router, Route, Link as RouterLink } from "react-router-dom";
 import Link from '@material-ui/core/Link';
 
@@ -23,14 +24,15 @@ function AppRouter({match}) {
       <div>
         <nav>
           {/* TODO: Replace TEST with Realm parameter, Perhaps from window.location.pathname */}
-              <Button><Link component={RouterLink} to={"/" + match.params.realmId + "/browse"} variant="body2">Browse</Link></Button>
-              <Button><Link component={RouterLink} to={"/" + match.params.realmId + "/offer-event/"} variant="body2">Offer</Link></Button>
-              <Button><Link component={RouterLink} to={"/" + match.params.realmId + "/suggest-event/"} >Suggest</Link></Button>
+              <Button><Link component={RouterLink} to={"/" + match.params.realmId + "/events"} variant="body2">Browse</Link></Button>
+              <Button><Link component={RouterLink} to={"/" + match.params.realmId + "/events/offer-event/"} variant="body2">Offer</Link></Button>
+              <Button><Link component={RouterLink} to={"/" + match.params.realmId + "/events/suggest-event/"} >Suggest</Link></Button>
         </nav>
 
-        <Route path="/:realmId/browse" component={VisibleEventList} />
-        <Route path="/:realmId/offer-event/" component={Offer} />
-        <Route path="/:realmId/suggest-event/" component={Suggest} />
+        <Route path="/:realmId/events" exact component={VisibleEventList} />
+        <Route path="/:realmId/events/:eventId" component={EventDetails} />
+        <Route path="/:realmId/events/offer-event/" component={Offer} />
+        <Route path="/:realmId/events/suggest-event/" component={Suggest} />
       </div>
     </Router>
   );

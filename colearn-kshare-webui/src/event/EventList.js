@@ -141,7 +141,7 @@ function EventList({ match, classes, events, loadEvents, addEvent, updateEvent, 
               <CustomTableCell component="th" >
                 {moment(event.start).format('MM/DD/YY h:mm')} ~ {moment(event.end).format('h:mm')}
               </CustomTableCell>
-              <CustomTableCell >{event.title}</CustomTableCell>
+              <CustomTableCell ><a href={"/" + realmId + "/events/"+ event.uid}>{event.title}</a></CustomTableCell>
               <CustomTableCell >{event.synopsis}</CustomTableCell>
               <CustomTableCell >{event.presenters}</CustomTableCell>
               <CustomTableCell >{event.status}</CustomTableCell>
