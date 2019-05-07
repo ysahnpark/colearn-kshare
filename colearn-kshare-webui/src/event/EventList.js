@@ -46,20 +46,6 @@ const styles = theme => ({
   }
 });
 
-/*
-let id = 0;
-function createData(date, time, title, synopsis, presenter, audience) {
-  id += 1;
-  return {id, date, time, title, synopsis, presenter, audience };
-}
-
-const rows = [
-  createData('2019/01/07', '12:15 ~ 1:00', 'World A', 'The world is beautiful', 'John Doe', 'everyone'),
-  createData('2019/01/07', '12:15 ~ 1:00', 'WOold B', 'The world is beautiful', 'John Doe', 'everyone'),
-  createData('2019/01/07', '12:15 ~ 1:00', 'World C', 'The world is beautiful', 'John Doe', 'everyone'),
-];
-*/
-
 var tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 tomorrow.setHours(8, 0, 0, 0);

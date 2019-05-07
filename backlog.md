@@ -1,7 +1,7 @@
 CoLearn Backlog
 ===============
 
-- Realm (tenant): Edit profile, Display
+- Realm (tenant): Edit profile
 - Event full-text search
 - Event Calendar view
 - Event Comments

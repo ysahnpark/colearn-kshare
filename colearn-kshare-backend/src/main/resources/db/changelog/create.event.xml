@@ -29,6 +29,8 @@
             <column name="link" type="varchar(255)"/>
             <column name="feedback" type="text"/>
 
+            <column name="post_thread_uid" type="varchar(120)"/>
+
         </createTable>
 
         <createIndex indexName="event_uid_idx"

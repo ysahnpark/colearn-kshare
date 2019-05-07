@@ -1,0 +1,105 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create.forum" author="ysahn">
+        <createTable tableName="forum">
+
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="uid" type="varchar(120)"/>
+            <column name="crated_at" type="timestamp with time zone"/>
+            <column name="updated_at" type="timestamp with time zone"/>
+
+            <column name="realm_uid" type="varchar(120)"/>
+
+            <column name="name" type="varchar(255)"/>
+            <column name="description" type="text"/>
+            <column name="type" type="varchar(20)"/>
+            <column name="accessibility" type="varchar(255)"/>
+
+        </createTable>
+
+        <createIndex indexName="forum_uid_idx"
+                     tableName="forum" unique="true">
+            <column name="uid"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="create.forum_post" author="ysahn">
+        <createTable tableName="forum_post">
+
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="uid" type="varchar(120)"/>
+            <column name="crated_at" type="timestamp with time zone"/>
+            <column name="updated_at" type="timestamp with time zone"/>
+
+            <column name="forum_uid" type="varchar(120)">
+                <constraints referencedTableName="forum" referencedColumnNames="uid"
+                             foreignKeyName="forum_post_fk" nullable="false" />
+            </column>
+            <column name="thread_uid" type="varchar(120)" />
+
+            <column name="body" type="text" />
+            <column name="type" type="varchar(12)" />
+            <column name="vote_count" type="int" />
+            <column name="vote" type="int" />
+        </createTable>
+
+        <createIndex indexName="forum_post_forum_uid_idx"
+                     tableName="forum_post">
+            <column name="forum_uid"/>
+        </createIndex>
+
+        <createIndex indexName="forum_post_thread_uid_idx"
+                     tableName="forum_post">
+            <column name="thread_uid"/>
+        </createIndex>
+
+        <createIndex indexName="forum_post_uid_idx"
+                     tableName="forum" unique="true">
+            <column name="uid"/>
+        </createIndex>
+    </changeSet>
+
+
+    <changeSet id="create.forum_comment" author="ysahn">
+        <createTable tableName="forum_comment">
+
+            <column name="sid" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="uid" type="varchar(120)"/>
+            <column name="crated_at" type="timestamp with time zone"/>
+            <column name="updated_at" type="timestamp with time zone"/>
+
+            <column name="post_uid" type="varchar(120)">
+                <constraints referencedTableName="forum_post" referencedColumnNames="uid"
+                             foreignKeyName="forum_comment_fk" nullable="false" />
+            </column>
+
+            <column name="body" type="text" />
+            <column name="type" type="varchar(12)" />
+            <column name="vote_count" type="int" />
+            <column name="vote" type="int" />
+        </createTable>
+
+        <createIndex indexName="forum_comment_post_uid_idx"
+                     tableName="forum_comment">
+            <column name="post_uid"/>
+        </createIndex>
+
+        <createIndex indexName="forum_comment_uid_idx"
+                     tableName="forum_comment" unique="true">
+            <column name="uid"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

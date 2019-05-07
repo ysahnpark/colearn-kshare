@@ -20,6 +20,15 @@
         <querydsl.version>4.2.1</querydsl.version>
     </properties>
 
+    <repositories>
+        <!-- For the Spring Milestones -->
+        <repository>
+            <id>repository.spring.milestone</id>
+            <name>Spring Milestone Repository</name>
+            <url>http://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->
@@ -41,6 +50,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.hateoas</groupId>-->
+<!--            <artifactId>spring-hateoas</artifactId>-->
+<!--            <version>1.0.0.M1</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>

@@ -1,5 +1,6 @@
 package dev.colearn.kshare.eventum
 
+import dev.colearn.kshare.forum.Post
 import dev.colearn.kshare.framework.EntityBase
 import org.hibernate.annotations.Cascade
 import org.hibernate.annotations.Fetch
@@ -62,7 +63,15 @@ data class Event(
 
         @OneToMany(cascade = [CascadeType.ALL])
         @JoinColumn(name = "event_uid")
-        var resources: Set<ResourceLink> = setOf() // Feedback link
+        var resources: Set<ResourceLink> = setOf(), // Feedback link
+
+        @Column(name = "post_thread_uid")
+        var postThreadUid: String? = null, // Post thread in the Forum associated with this event
+
+        // Not persisted, Loaded upon request
+        @Transient
+        var posts: List<Post>? = null
+
 ) : EntityBase(), Serializable {
 
 }

@@ -3,6 +3,9 @@ package dev.colearn.kshare.eventum.support
 import com.querydsl.core.BooleanBuilder
 import dev.colearn.kshare.eventum.Event
 import dev.colearn.kshare.eventum.QEvent
+import dev.colearn.kshare.forum.Post
+import dev.colearn.kshare.forum.support.ForumService
+import dev.colearn.kshare.realm.support.RealmService
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -16,7 +19,9 @@ import java.time.Instant
 
 @Service
 class EventServiceImpl @Autowired constructor (
-        val eventRepository: EventRepository
+        val eventRepository: EventRepository,
+        val realmService: RealmService,
+        val forumService: ForumService
 ) : EventService {
 
     override
@@ -40,14 +45,32 @@ class EventServiceImpl @Autowired constructor (
         return eventRepository.findAll(booleanBuilder, paging)
     }
 
-    override fun find(eventUid: String): Event? {
-        return eventRepository.findByUid(eventUid)
+    override fun find(eventUid: String, loadPosts: Boolean): Event? {
+        var event = eventRepository.findByUid(eventUid)
+
+        if (loadPosts && event?.postThreadUid != null) {
+            val page = PageRequest.of(0, 100)
+            event.posts = forumService.findAllPostsOfAThread(event.postThreadUid!!, page).content
+        }
+
+        return event
     }
 
     override
     fun add(event: Event): Event {
+
+        // TODO: Optimize by obtaining the realm from RealmContextHolder
+        val realm = realmService.findByKey(event.realmUid!!)
+
+        if (realm?.forumUid != null) {
+            val eventThreadPost = Post(forumUid = realm!!.forumUid!!, title= event.title, body = "Discussion on " + event.title)
+            val savedEventThreadPost = forumService.addPost(eventThreadPost)
+            event.postThreadUid = savedEventThreadPost.uid
+        }
+
         event.sid = null
         event.uid = null
+
         return eventRepository.save(event)
     }
 

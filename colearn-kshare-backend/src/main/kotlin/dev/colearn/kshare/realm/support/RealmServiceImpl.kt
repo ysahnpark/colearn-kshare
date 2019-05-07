@@ -1,6 +1,8 @@
 package dev.colearn.kshare.realm.support
 
 import com.querydsl.core.BooleanBuilder
+import dev.colearn.kshare.forum.Forum
+import dev.colearn.kshare.forum.support.ForumService
 import dev.colearn.kshare.realm.QRealm
 import dev.colearn.kshare.realm.Realm
 import org.springframework.beans.BeanUtils
@@ -14,7 +16,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class RealmServiceImpl @Autowired constructor(
-        val realmRepository: RealmRepository
+        val realmRepository: RealmRepository,
+        val forumService: ForumService
 ) : RealmService {
 
     override
@@ -44,7 +47,13 @@ class RealmServiceImpl @Autowired constructor(
     fun add(realm: Realm): Realm {
         realm.sid = null
         realm.uid = null
-        return realmRepository.save(realm)
+        val savedRealm = realmRepository.save(realm)
+
+        val eventForum = Forum(realmUid = savedRealm.uid, name=realm.name)
+        val savedEventForum = forumService.addForum(eventForum)
+        realm.forumUid = savedEventForum.uid
+
+        return savedRealm
     }
 
     override

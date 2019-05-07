@@ -50,8 +50,11 @@ data class Realm(
         var coverImage: String? = null, // rectangular image used for cover.
 
         @Column(name = "config")
-        var config: String? = null // config in JSON
+        var config: String? = null, // config in JSON
 
+        // System populated
+        @Column(name = "forum_uid")
+        var forumUid: String? = null // Forum associated with this realm
 ) : EntityBase(), Serializable {
 
 }

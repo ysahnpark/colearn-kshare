@@ -1,16 +1,29 @@
 package dev.colearn.kshare.eventum.support
 
 import dev.colearn.kshare.eventum.Event
+import dev.colearn.kshare.forum.Post
+import dev.colearn.kshare.forum.support.ForumService
+import dev.colearn.kshare.realm.Realm
+import dev.colearn.kshare.realm.support.RealmService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import java.time.Instant
 import javax.transaction.Transactional
+
+private fun <T> anyObject(): T {
+    return Mockito.anyObject<T>()
+}
 
 //@ExtendWith(SpringExtension::class)
 // Not needed as per @see https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html#boot-features-testing-spring-boot-applications
@@ -30,6 +43,42 @@ class EventServiceIT constructor(
     lateinit var subject: EventServiceImpl
     @Autowired
     lateinit var entityManager: TestEntityManager
+
+    @MockBean
+    private lateinit var realmService: RealmService
+    @MockBean
+    private lateinit var forumService: ForumService
+
+    @Test
+    fun `when_add_then_create_associated_post`() {
+
+        val stubRealm = Realm(key="STUB_REALM", name="Stub_Realm", forumUid="STUB_FORUM_ID")
+        Mockito.`when`(realmService.findByKey(anyObject())).thenReturn(stubRealm)
+        val stubPost = Post("STUB_FORUM_ID", title="Stub_post")
+        stubPost.uid = "POST_UID"
+        Mockito.`when`(forumService.addPost(anyObject())).thenReturn(stubPost)
+        val event = Event("TEST_REALM", "Test Title", "Testing", "This is a test", "Test", Instant.parse("2019-01-12T12:00:00.00Z"), Instant.parse("2019-01-12T12:00:00.00Z"))
+        val result = subject.add(event)
+
+        assertThat(result.postThreadUid).isEqualTo(stubPost.uid)
+    }
+
+    @Test
+    fun `when_find_then_load_posts`() {
+
+        val firstEvent = populate().first()!!
+
+        val stubPosts = listOf(Post("STUB_FORUM_ID", title="Stub_post"))
+
+        var page = PageImpl<Post>(stubPosts)
+        Mockito.`when`(forumService.findAllPostsOfAThread(anyObject(), anyObject())).thenReturn(page)
+
+        val result = subject.find(firstEvent.uid!!, true)
+
+        assertThat(result!!.uid).isEqualTo(firstEvent.uid)
+        assertThat(result!!.posts).hasSize(1)
+        assertThat(result!!.posts!!.first().title).isEqualTo("Stub_post")
+    }
 
     @Test
     fun `when_query_with_params_null`() {
@@ -90,7 +139,7 @@ class EventServiceIT constructor(
         var savedEvents = mutableListOf<Event>()
 
         val events = arrayListOf(
-                Event(title = "E5", type = "B", audience = "engineer", start = Instant.parse("2019-02-05T12:00:00.00Z"), end = Instant.parse("2019-02-05T13:00:00.00Z")),
+                Event(title = "E5", type = "B", audience = "engineer", start = Instant.parse("2019-02-05T12:00:00.00Z"), end = Instant.parse("2019-02-05T13:00:00.00Z"), postThreadUid = "STUB_POST_ID"),
                 Event(title = "E4", type = "B", start = Instant.parse("2019-02-03T12:00:00.00Z"), end = Instant.parse("2019-02-03T13:00:00.00Z")),
                 Event(title = "E3", type = "B", start = Instant.parse("2019-01-12T12:00:00.00Z"), end = Instant.parse("2019-01-12T13:00:00.00Z")),
                 Event(title = "E2", type = "A", start = Instant.parse("2019-01-09T12:00:00.00Z"), end = Instant.parse("2019-01-09T12:00:00.00Z")),

@@ -3,6 +3,7 @@ package dev.colearn.kshare.eventum.support
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import dev.colearn.kshare.eventum.Event
+import dev.colearn.kshare.forum.support.ForumService
 import dev.colearn.kshare.realm.support.RealmService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -35,6 +36,9 @@ class EventControllerMvcTest(
     @MockBean
     private lateinit var eventService: EventService
 
+    @MockBean
+    private lateinit var forumService: ForumService
+
     @BeforeEach
     private fun setup() {
         // https://github.com/FasterXML/jackson-modules-java8
@@ -48,7 +52,7 @@ class EventControllerMvcTest(
         val stubResponse = Event(title = "E1", type = "A", start = Instant.parse("2019-01-02T12:00:00.00Z"), end = Instant.parse("2019-01-02T13:00:00.00Z"), presenters = setOf("Jane", "John"))
 
         val testUid = "TEST-UID1"
-        Mockito.`when`(eventService.find(testUid)).thenReturn(stubResponse)
+        Mockito.`when`(eventService.find(testUid, true)).thenReturn(stubResponse)
 
         // Similar API? org.springframework.mock.http.server.reactive.MockServerHttpRequest
         mockMvc.perform(get("/api/v1/MyRealm/events/$testUid")
@@ -65,7 +69,7 @@ class EventControllerMvcTest(
                 .andExpect(jsonPath("\$.start").value(stubResponse.start.toString()))
 
         // Optionally test the interaction with service
-        verify(eventService).find(testUid)
+        verify(eventService).find(testUid, true)
     }
 
 

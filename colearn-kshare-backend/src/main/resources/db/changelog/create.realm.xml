@@ -32,6 +32,8 @@
             <column name="cover_image" type="varchar(255)"/>
             <column name="config" type="text"/>
 
+            <column name="forum_uid" type="varchar(120)"/>
+
         </createTable>
 
         <createIndex indexName="realm_uid_idx"
