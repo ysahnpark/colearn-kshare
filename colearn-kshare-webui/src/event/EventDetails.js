@@ -9,6 +9,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import moment from 'moment'
 
+import PostThread from '../forum/PostThread';
 import {eventsBaseUrl} from './actions'
 
 const styles = theme => ({
@@ -29,9 +30,10 @@ const styles = theme => ({
   },
 });
 
-// https://upmostly.com/tutorials/using-custom-react-hooks-simplify-forms/
-const EventForm = ({ classes, realmId, eventUid }) => {
-  // Refactor empty event model which is also in EventList.js
+const EventDetails = (props) => {
+  let { classes, eventUid } = props;
+  
+  // TODO: Refactor empty event model which is also in EventList.js
   const [eventDetails, setValues] = useState({
     title: "",
     synopsis: "",
@@ -46,7 +48,8 @@ const EventForm = ({ classes, realmId, eventUid }) => {
     venue: "",
     link: "",
     feedback: "",
-    resources: []
+    resources: [],
+    posts:[]
   });
 
   const match = matchPath(window.location.pathname, {
@@ -54,6 +57,8 @@ const EventForm = ({ classes, realmId, eventUid }) => {
     exact: false,
     strict: false
   });
+
+  const realmId = match.params.realmId;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,12 +153,14 @@ const EventForm = ({ classes, realmId, eventUid }) => {
         </Grid>
       </Grid>
 
+      <PostThread posts={eventDetails.posts}/>
+
     </div>
   )
 }
 
-EventForm.propTypes = {
+EventDetails.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EventForm);
+export default withStyles(styles)(EventDetails);

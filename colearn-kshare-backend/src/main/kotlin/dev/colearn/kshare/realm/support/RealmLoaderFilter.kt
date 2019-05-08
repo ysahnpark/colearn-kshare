@@ -2,6 +2,7 @@ package dev.colearn.kshare.realm.support
 
 import mu.KotlinLogging
 import org.springframework.util.AntPathMatcher
+import java.lang.IllegalStateException
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
 
@@ -26,9 +27,12 @@ class RealmLoaderFilter(val realmService: RealmService) : Filter {
         logger.info("RealmLoaderFilter.doFilter called")
         val realmId = extractRealmIdFromPath(request!!)
 
-        if (realmId != null) {
-            val realm = realmService.findByKey(realmId)
-            // TODO: set Realm object in the RealmContextHolder
+        // "realms" is the prefix
+        if (realmId != null && realmId != "realms") {
+            val realm = realmService.findByKey(realmId) ?:
+                throw IllegalStateException("Realm [$realmId] not found")
+
+            RealmContextHolder.setRealm(realm!!)
             request!!.setAttribute(REALM_ATTRIB, realm)
         }
 

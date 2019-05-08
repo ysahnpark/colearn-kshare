@@ -46,6 +46,7 @@
             </column>
             <column name="thread_uid" type="varchar(120)" />
 
+            <column name="title" type="text" />
             <column name="body" type="text" />
             <column name="type" type="varchar(12)" />
             <column name="vote_count" type="int" />

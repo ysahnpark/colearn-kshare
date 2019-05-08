@@ -22,9 +22,8 @@ class FilterConfig : WebMvcConfigurer {
     {
         var registration = FilterRegistrationBean<RealmLoaderFilter>(loadRealmFilter())
         registration.setName("RealmLoaderFilter")
-        registration.addUrlPatterns("/api/*") // Url patterns should be the simple format, not the ant pattern
-//        registration.addUrlPatterns("/api/v1/{realmId:\\w+}/**")
-        //registration.addInitParameter("paramName", "paramValue");
+        registration.addUrlPatterns("/api/*")
+        // Url patterns should be the simple format, it does not support the ant pattern
         registration.setOrder(Ordered.HIGHEST_PRECEDENCE)
 
         logger.info ("RealmLoaderFilter registered!!")

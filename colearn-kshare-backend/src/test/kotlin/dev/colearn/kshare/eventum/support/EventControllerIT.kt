@@ -13,6 +13,9 @@ import org.springframework.data.domain.PageRequest
 import java.time.Instant
 import org.springframework.test.web.servlet.MockMvc
 import com.fasterxml.jackson.databind.ObjectMapper
+import dev.colearn.kshare.realm.Realm
+import dev.colearn.kshare.realm.support.RealmContextHolder
+import dev.colearn.kshare.realm.support.RealmService
 import org.hamcrest.Matchers.any
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
@@ -37,12 +40,19 @@ class EventControllerIT (
     @MockBean
     private lateinit var eventService: EventService
 
+    @MockBean
+    private lateinit var realmService: RealmService
+
 
     @Test
     fun `using_rest_when_get_return_event`() {
 
-        val stubResponse = Event(title = "E1", type = "A", start = Instant.parse("2019-01-02T12:00:00.00Z"), end = Instant.parse("2019-01-02T13:00:00.00Z"), presenters = setOf("Jane", "John"))
+        val stubRealm = Realm("STUB_REALM_KEY", "Stub_Realm", forumUid = "STUB_FORUM_UID")
+        stubRealm.uid = "STUB_REALM_UID"
+        Mockito.`when`(realmService.findByKey("MyRealm")).thenReturn(stubRealm)
 
+
+        val stubResponse = Event(title = "E1", type = "A", start = Instant.parse("2019-01-02T12:00:00.00Z"), end = Instant.parse("2019-01-02T13:00:00.00Z"), presenters = setOf("Jane", "John"))
         val testUid = "TEST-UID1"
         Mockito.`when`(eventService.find(testUid, true)).thenReturn(stubResponse)
 

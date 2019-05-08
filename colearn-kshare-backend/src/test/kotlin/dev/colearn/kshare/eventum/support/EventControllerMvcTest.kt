@@ -2,8 +2,11 @@ package dev.colearn.kshare.eventum.support
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Real
 import dev.colearn.kshare.eventum.Event
 import dev.colearn.kshare.forum.support.ForumService
+import dev.colearn.kshare.realm.Realm
+import dev.colearn.kshare.realm.support.RealmContextHolder
 import dev.colearn.kshare.realm.support.RealmService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
@@ -51,6 +54,10 @@ class EventControllerMvcTest(
 
         val stubResponse = Event(title = "E1", type = "A", start = Instant.parse("2019-01-02T12:00:00.00Z"), end = Instant.parse("2019-01-02T13:00:00.00Z"), presenters = setOf("Jane", "John"))
 
+        var mockRealm = Realm(key="MOCK_REALM", name="Mock_Realm", forumUid = "MOCK_FORUM_UID")
+        mockRealm.uid = "MOCK_REALM_UID"
+        RealmContextHolder.setRealm(mockRealm)
+
         val testUid = "TEST-UID1"
         Mockito.`when`(eventService.find(testUid, true)).thenReturn(stubResponse)
 
@@ -67,6 +74,8 @@ class EventControllerMvcTest(
                 // Also possible by using jsonPath
                 .andExpect(jsonPath("\$.title").value(stubResponse.title))
                 .andExpect(jsonPath("\$.start").value(stubResponse.start.toString()))
+                .andExpect(jsonPath("\$.links[0].rel").value("post"))
+                .andExpect(jsonPath("\$.links[0].href").value("http://localhost/api/v1/MOCK_REALM_UID/forums/MOCK_FORUM_UID/posts/"))
 
         // Optionally test the interaction with service
         verify(eventService).find(testUid, true)

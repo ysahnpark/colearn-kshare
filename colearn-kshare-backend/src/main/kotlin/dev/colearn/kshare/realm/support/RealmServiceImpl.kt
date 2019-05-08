@@ -51,7 +51,8 @@ class RealmServiceImpl @Autowired constructor(
 
         val eventForum = Forum(realmUid = savedRealm.uid, name=realm.name)
         val savedEventForum = forumService.addForum(eventForum)
-        realm.forumUid = savedEventForum.uid
+        savedRealm.forumUid = savedEventForum.uid
+        realmRepository.save(savedRealm)
 
         return savedRealm
     }

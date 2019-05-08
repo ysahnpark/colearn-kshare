@@ -16,7 +16,7 @@ data class Post(
         @Column(name = "thread_uid")
         var threadUid: String? = null, // the post Uid that this is responding to
 
-        @Column(name = "name")
+        @Column(name = "title")
         var title: String,
 
         @Column(name = "body")

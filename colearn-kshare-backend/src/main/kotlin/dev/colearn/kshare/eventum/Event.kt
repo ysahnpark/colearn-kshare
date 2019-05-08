@@ -1,5 +1,6 @@
 package dev.colearn.kshare.eventum
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import dev.colearn.kshare.forum.Post
 import dev.colearn.kshare.framework.EntityBase
 import org.hibernate.annotations.Cascade
@@ -11,6 +12,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "event")
+@JsonIgnoreProperties(ignoreUnknown = true) // Ignore unrecognized properties, such as _link
 data class Event(
 
         @Column(name = "realm_uid")

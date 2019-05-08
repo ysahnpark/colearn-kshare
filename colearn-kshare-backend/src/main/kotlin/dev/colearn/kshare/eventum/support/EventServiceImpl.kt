@@ -5,6 +5,7 @@ import dev.colearn.kshare.eventum.Event
 import dev.colearn.kshare.eventum.QEvent
 import dev.colearn.kshare.forum.Post
 import dev.colearn.kshare.forum.support.ForumService
+import dev.colearn.kshare.realm.support.RealmContextHolder
 import dev.colearn.kshare.realm.support.RealmService
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -59,8 +60,8 @@ class EventServiceImpl @Autowired constructor (
     override
     fun add(event: Event): Event {
 
-        // TODO: Optimize by obtaining the realm from RealmContextHolder
-        val realm = realmService.findByKey(event.realmUid!!)
+        // val realm = realmService.find(event.realmUid!!)
+        val realm = RealmContextHolder.getRealm()
 
         if (realm?.forumUid != null) {
             val eventThreadPost = Post(forumUid = realm!!.forumUid!!, title= event.title, body = "Discussion on " + event.title)
