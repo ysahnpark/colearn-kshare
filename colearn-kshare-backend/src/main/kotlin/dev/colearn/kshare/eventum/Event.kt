@@ -72,7 +72,7 @@ data class Event(
 
         // Not persisted, Loaded upon request
         @Transient
-        var posts: List<Post>? = null
+        var post: Post? = null
 
 ) : EntityBase(), Serializable {
 

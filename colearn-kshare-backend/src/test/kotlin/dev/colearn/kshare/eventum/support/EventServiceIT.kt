@@ -4,11 +4,10 @@ import dev.colearn.kshare.eventum.Event
 import dev.colearn.kshare.forum.Post
 import dev.colearn.kshare.forum.support.ForumService
 import dev.colearn.kshare.realm.Realm
+import dev.colearn.kshare.realm.support.RealmContextHolder
 import dev.colearn.kshare.realm.support.RealmService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -52,14 +51,20 @@ class EventServiceIT constructor(
     @Test
     fun `when_add_then_create_associated_post`() {
 
+        // GIVEN
         val stubRealm = Realm(key="STUB_REALM", name="Stub_Realm", forumUid="STUB_FORUM_ID")
-        Mockito.`when`(realmService.findByKey(anyObject())).thenReturn(stubRealm)
+        // Mockito.`when`(realmService.findByKey(anyObject())).thenReturn(stubRealm)
+        RealmContextHolder.setRealm(stubRealm)
+
         val stubPost = Post("STUB_FORUM_ID", title="Stub_post")
         stubPost.uid = "POST_UID"
         Mockito.`when`(forumService.addPost(anyObject())).thenReturn(stubPost)
+
+        // WHEN
         val event = Event("TEST_REALM", "Test Title", "Testing", "This is a test", "Test", Instant.parse("2019-01-12T12:00:00.00Z"), Instant.parse("2019-01-12T12:00:00.00Z"))
         val result = subject.add(event)
 
+        // THEN
         assertThat(result.postThreadUid).isEqualTo(stubPost.uid)
     }
 
@@ -68,16 +73,15 @@ class EventServiceIT constructor(
 
         val firstEvent = populate().first()!!
 
-        val stubPosts = listOf(Post("STUB_FORUM_ID", title="Stub_post"))
-
-        var page = PageImpl<Post>(stubPosts)
-        Mockito.`when`(forumService.findAllPostsOfAThread(anyObject(), anyObject())).thenReturn(page)
+        val stubThreadPosts = listOf(Post("STUB_FORUM_ID", title="Stub_post"))
+        var stubPost = Post("STUB_FORUM_ID", title="Stub_title", threadPosts = PageImpl<Post>(stubThreadPosts))
+        Mockito.`when`(forumService.findPost(anyObject())).thenReturn(stubPost)
 
         val result = subject.find(firstEvent.uid!!, true)
 
         assertThat(result!!.uid).isEqualTo(firstEvent.uid)
-        assertThat(result!!.posts).hasSize(1)
-        assertThat(result!!.posts!!.first().title).isEqualTo("Stub_post")
+        assertThat(result!!.post!!.threadPosts).hasSize(1)
+        assertThat(result!!.post!!.threadPosts.first().title).isEqualTo("Stub_post")
     }
 
     @Test

@@ -1,6 +1,8 @@
 package dev.colearn.kshare.forum
 
 import dev.colearn.kshare.framework.EntityBase
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -29,8 +31,12 @@ data class Post(
         var voteCount: Int = 0,
 
         @Column(name = "vote")
-        var vote: Int = 0
+        var vote: Int = 0,
 
-        ) : EntityBase(), Serializable {
+        // Not persisted, Loaded upon request
+        @Transient
+        var threadPosts: Page<Post> = PageImpl<Post>(listOf())
+
+) : EntityBase(), Serializable {
 
 }

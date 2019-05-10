@@ -5,6 +5,7 @@ import dev.colearn.kshare.forum.Comment
 import dev.colearn.kshare.forum.Forum
 import dev.colearn.kshare.forum.Post
 import dev.colearn.kshare.forum.QForum
+import dev.colearn.kshare.framework.Constants
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -77,7 +78,7 @@ class ForumServiceImpl @Autowired constructor(
     }
 
     override
-    fun findAllPostsOfAThread(threadUid: String, page: Pageable): Page<Post>
+    fun findAllPostsOfAThread(threadUid: String, page: Pageable?): Page<Post>
     {
         return postRepository.findByThreadUid(threadUid, page)
     }
@@ -85,7 +86,12 @@ class ForumServiceImpl @Autowired constructor(
     override
     fun findPost(postUid: String): Post?
     {
-        return postRepository.findByUid(postUid)
+        val post = postRepository.findByUid(postUid)
+
+        val page = PageRequest.of(0, Constants.DEFAULT_PAGE_SIZE) // fetch with a default page zie
+        post.threadPosts = this.findAllPostsOfAThread(post.uid!!, page)
+
+        return post
     }
 
     override

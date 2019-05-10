@@ -12,5 +12,5 @@ interface PostRepository : JpaRepository<Post, Long>, QuerydslPredicateExecutor<
 
     fun findByForumUid(forumUid: String, pageable: Pageable?): Page<Post>
 
-    fun findByThreadUid(threadUid: String, pageable: Pageable): Page<Post>
+    fun findByThreadUid(threadUid: String, pageable: Pageable?): Page<Post>
 }

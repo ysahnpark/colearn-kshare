@@ -14,7 +14,7 @@ interface ForumService {
     fun deleteForumByUid(forumUid: String): Forum
     
     fun findAllPosts(forumUid: String, page: Pageable?): Page<Post>
-    fun findAllPostsOfAThread(threadUid: String, page: Pageable): Page<Post>
+    fun findAllPostsOfAThread(threadUid: String, page: Pageable?): Page<Post>
     fun findPost(postUid: String): Post?
     fun addPost(post: Post): Post
     fun updatePost(post: Post): Post

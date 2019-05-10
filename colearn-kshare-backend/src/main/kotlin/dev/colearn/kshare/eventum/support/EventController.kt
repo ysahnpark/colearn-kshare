@@ -1,6 +1,7 @@
 package dev.colearn.kshare.eventum.support
 
 import dev.colearn.kshare.eventum.Event
+import dev.colearn.kshare.framework.Constants
 import dev.colearn.kshare.post.support.PostController
 import dev.colearn.kshare.realm.Realm
 import dev.colearn.kshare.realm.support.RealmContextHolder
@@ -26,7 +27,7 @@ class EventController @Autowired constructor(val eventService: EventService) {
                   @RequestParam(required = false) types: Set<String>?,
                   @RequestParam(required = false) from: Instant? = null,
                   @RequestParam(required = false) to: Instant? = null,
-                  @PageableDefault(size = 20) pageable: Pageable): Page<Event> {
+                  @PageableDefault(size = Constants.DEFAULT_PAGE_SIZE) pageable: Pageable): Page<Event> {
 
         // TODO: addForum realmId
         return eventService.findAll(types, from, to, pageable)

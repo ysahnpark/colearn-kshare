@@ -46,12 +46,11 @@ class EventServiceImpl @Autowired constructor (
         return eventRepository.findAll(booleanBuilder, paging)
     }
 
-    override fun find(eventUid: String, loadPosts: Boolean): Event? {
+    override fun find(eventUid: String, loadPost: Boolean): Event? {
         var event = eventRepository.findByUid(eventUid)
 
-        if (loadPosts && event?.postThreadUid != null) {
-            val page = PageRequest.of(0, 100)
-            event.posts = forumService.findAllPostsOfAThread(event.postThreadUid!!, page).content
+        if (loadPost && event?.postThreadUid != null) {
+            event.post = forumService.findPost(event.postThreadUid!!)
         }
 
         return event

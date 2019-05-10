@@ -49,7 +49,7 @@ const EventDetails = (props) => {
     link: "",
     feedback: "",
     resources: [],
-    posts:[]
+    post:{}
   });
 
   const match = matchPath(window.location.pathname, {
@@ -153,7 +153,7 @@ const EventDetails = (props) => {
         </Grid>
       </Grid>
 
-      <PostThread posts={eventDetails.posts}/>
+      <PostThread realmUid = {eventDetails.realmUid} post={eventDetails.post}/>
 
     </div>
   )

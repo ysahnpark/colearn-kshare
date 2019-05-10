@@ -23,6 +23,7 @@ export const deleteEvent = (eventUid) => ({
 // TODO: Parameterize base URL from ENV
 export function eventsBaseUrl(realmId) {
   if (!realmId) realmId = "UNDEF_REALM"
+  // TODO: use env variable for the ROOT URL
   return "http://localhost:8080/api/v1/" + realmId + "/events";
 }
 
