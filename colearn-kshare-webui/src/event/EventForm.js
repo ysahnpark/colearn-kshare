@@ -133,7 +133,11 @@ const EventForm = ({ classes, origEvent, onSubmit }) => {
         </Grid>
       </Grid>
 
-      <ResourceLinksForm width="75%" id="resources" name="resources" resources={eventDetails.resources} onChange={handleInputChange} />
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <ResourceLinksForm id="resources" name="resources" resources={eventDetails.resources} onChange={handleInputChange} />
+        </Grid>
+      </Grid>
 
       <Grid container spacing={24}>
         <Grid item xs>

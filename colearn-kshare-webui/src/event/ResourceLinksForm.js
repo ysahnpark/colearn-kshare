@@ -32,14 +32,14 @@ const ResourceLinkInput = ({ classes, idx, resource, onChange, deleteResource })
 
   return (
     <Grid container spacing={24}>
-      <Grid item xs>
+      <Grid item >
         <TextField
           id="kind" name="kind" label="Kind"
           value={resource.kind}
           onChange={handleInputChange}
         />
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs>
         <TextField
           id="uri" name="uri" label="URL"
           value={resource.uri}
@@ -47,7 +47,7 @@ const ResourceLinkInput = ({ classes, idx, resource, onChange, deleteResource })
           fullWidth
         />
       </Grid>
-      <Grid item xs>
+      <Grid item >
         <DeleteIcon onClick={() => deleteResource(idx)} />
       </Grid>
     </Grid>
@@ -95,7 +95,7 @@ const ResourceLinksForm = ({ classes, name, resources, onChange }) => {
   }
 
   return (
-    <div>
+    <div  >
       {resources.map((resource, idx) => {
         let resourceWithIdx = { ...resource, "_idx": idx }
         return (

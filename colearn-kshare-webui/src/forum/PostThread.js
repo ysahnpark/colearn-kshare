@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { addPost, fetchThreadPosts } from './forumClient'
 
+import moment from 'moment'
 
 const styles = theme => ({
   container: {
@@ -100,33 +101,44 @@ const PostThread = (props) => {
             </Typography>
           </Grid>
         </Grid>
-        <Typography color="textSecondary">
+        <Typography variant="h6">
           {post.body}
         </Typography>
       </div>
 
       {threadPosts && threadPosts.map(childPost => (
         <div>
-          <Divider variant="middle" />
-          <Typography color="textSecondary">
-            {childPost.body}
-          </Typography>
+          <Divider />
+
+          <Grid container spacing={24}>
+            <Grid item xs>
+              <Typography color="textSecondary">
+                {childPost.body}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography gutterBottom color="textSecondary">
+                {moment(childPost.createdAt).format('MM/DD - hh:mm')}
+              </Typography>
+            </Grid>
+          </Grid>
+
         </div>
       ))}
       <div>
-        <Divider variant="middle" />
+        <Divider />
 
         <Grid container spacing={24}>
           <Grid item xs>
             <TextField
-              id="body" name="body" label="Post Body" className={classes.textField}
+              id="body" name="body" label="Post Your Message" className={classes.textField}
               value={postFields.body}
               onChange={handleInputChange}
               fullWidth multiline
             />
           </Grid>
           <Grid item>
-            <Button color="primary" onClick={handleSubmit} >Post</Button>
+            <Button color="primary" variant="contained" onClick={handleSubmit} >Post</Button>
           </Grid>
         </Grid>
 
