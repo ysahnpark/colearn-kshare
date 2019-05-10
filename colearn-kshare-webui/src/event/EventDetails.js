@@ -5,12 +5,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 
 import moment from 'moment'
 
 import PostThread from '../forum/PostThread';
-import {eventsBaseUrl} from './actions'
+import { eventsBaseUrl } from './actions'
 
 const styles = theme => ({
   container: {
@@ -32,7 +32,7 @@ const styles = theme => ({
 
 const EventDetails = (props) => {
   let { classes, eventUid } = props;
-  
+
   // TODO: Refactor empty event model which is also in EventList.js
   const [eventDetails, setValues] = useState({
     title: "",
@@ -49,7 +49,7 @@ const EventDetails = (props) => {
     link: "",
     feedback: "",
     resources: [],
-    post:{}
+    post: {}
   });
 
   const match = matchPath(window.location.pathname, {
@@ -65,7 +65,7 @@ const EventDetails = (props) => {
       if (!eventUid) {
         eventUid = match.params.eventId
       }
-      fetch(eventsBaseUrl(realmId)+ "/" + eventUid)
+      fetch(eventsBaseUrl(realmId) + "/" + eventUid)
         .then((response) => {
           if (!response.ok) {
             throw Error(response.statusText);
@@ -84,27 +84,16 @@ const EventDetails = (props) => {
 
   return (
     <div >
-      <h2>{eventDetails.title}</h2>
       <Grid container spacing={24}>
         <Grid item xs>
-          <TextField
-            id="title" name="title" label="Title" className={classes.textField}
-            value={eventDetails.title}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+          <Typography gutterBottom variant="h4">
+            {eventDetails.title}
+          </Typography>
         </Grid>
-        <Grid item xs>
-          <FormControl className={classes.formControl}>
-            <TextField
-              id="status" name="status" label="Status" className={classes.textField}
-              value={eventDetails.status}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </FormControl>
+        <Grid item>
+          <Typography gutterBottom variant="h6">
+            {eventDetails.status}
+          </Typography>
         </Grid>
       </Grid>
 
@@ -116,6 +105,7 @@ const EventDetails = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
+            variant="filled"
           />
         </Grid>
         <Grid item xs>
@@ -126,6 +116,7 @@ const EventDetails = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
+            variant="filled"
           />
         </Grid>
       </Grid>
@@ -138,6 +129,7 @@ const EventDetails = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
+            variant="filled"
           />
         </Grid>
       </Grid>
@@ -149,11 +141,24 @@ const EventDetails = (props) => {
             InputLabelProps={{
               shrink: true,
             }}
+            variant="filled"
+            fullWidth
           />
         </Grid>
       </Grid>
 
-      <PostThread realmUid = {eventDetails.realmUid} post={eventDetails.post}/>
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <TextField
+            id="description" name="description" label="Description" className={classes.textField}
+            value={eventDetails.description}
+            variant="filled"
+            fullWidth multiline
+          />
+        </Grid>
+      </Grid>
+
+      <PostThread realmUid={eventDetails.realmUid} post={eventDetails.post} />
 
     </div>
   )

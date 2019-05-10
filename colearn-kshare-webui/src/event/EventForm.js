@@ -117,11 +117,23 @@ const EventForm = ({ classes, origEvent, onSubmit }) => {
             id="synopsis" name="synopsis" label="Synopsis" className={classes.textField}
             value={eventDetails.synopsis}
             onChange={handleInputChange}
+            fullWidth
           />
         </Grid>
       </Grid>
 
-      <ResourceLinksForm id="resources" name="resources" resources={eventDetails.resources} onChange={handleInputChange} />
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <TextField
+            id="description" name="description" label="Description" className={classes.textField}
+            value={eventDetails.description}
+            onChange={handleInputChange}
+            fullWidth multiline
+          />
+        </Grid>
+      </Grid>
+
+      <ResourceLinksForm width="75%" id="resources" name="resources" resources={eventDetails.resources} onChange={handleInputChange} />
 
       <Grid container spacing={24}>
         <Grid item xs>

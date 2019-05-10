@@ -39,11 +39,12 @@ const ResourceLinkInput = ({ classes, idx, resource, onChange, deleteResource })
           onChange={handleInputChange}
         />
       </Grid>
-      <Grid item xs>
+      <Grid item xs={6}>
         <TextField
           id="uri" name="uri" label="URL"
           value={resource.uri}
           onChange={handleInputChange}
+          fullWidth
         />
       </Grid>
       <Grid item xs>

@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 
-import {addPost, fetchThreadPosts} from './forumClient'
+import { addPost, fetchThreadPosts } from './forumClient'
 
 
 const styles = theme => ({
@@ -32,7 +32,6 @@ const styles = theme => ({
 const PostThread = (props) => {
   let { classes, realmUid, post } = props;
 
-  // TODO: Refactor empty event model which is also in EventList.js
   const [threadPosts, setThreadPosts] = useState([]);
 
   const [postFields, setValues] = useState({
@@ -51,7 +50,7 @@ const PostThread = (props) => {
       loadThreadPosts()
       setValues({ ...postFields, body: "" });
     } catch (err) {
-      alert (JSON.stringify(err));
+      alert(JSON.stringify(err));
     }
   };
 
@@ -65,13 +64,16 @@ const PostThread = (props) => {
       const threadPosts = await fetchThreadPosts(realmUid, post.forumUid, post.uid, 0);
       setThreadPosts(threadPosts.content);
     } catch (err) {
-      alert ("Error: " + err);
-    }  
+      alert("Error: " + err);
+    }
   }
 
+  /**
+   * When post object's uid and forumUid is loaded, it loads posts associated to this thread 
+   */
   useEffect(() => {
     if (!post.forumUid || !post.uid) return;
- 
+
     loadThreadPosts();
 
     setValues({
@@ -88,7 +90,7 @@ const PostThread = (props) => {
       <div>
         <Grid container spacing={24}>
           <Grid item xs>
-            <Typography gutterBottom variant="h4">
+            <Typography gutterBottom variant="h5">
               {post.title}
             </Typography>
           </Grid>
@@ -113,12 +115,22 @@ const PostThread = (props) => {
       ))}
       <div>
         <Divider variant="middle" />
-        <TextField
-          id="body" name="body" label="Post Body" className={classes.textField}
-          value={postFields.body}
-          onChange={handleInputChange}
-        />
-        <Button color="primary" onClick={handleSubmit} >Post</Button>
+
+        <Grid container spacing={24}>
+          <Grid item xs>
+            <TextField
+              id="body" name="body" label="Post Body" className={classes.textField}
+              value={postFields.body}
+              onChange={handleInputChange}
+              fullWidth multiline
+            />
+          </Grid>
+          <Grid item>
+            <Button color="primary" onClick={handleSubmit} >Post</Button>
+          </Grid>
+        </Grid>
+
+
       </div>
 
     </div>

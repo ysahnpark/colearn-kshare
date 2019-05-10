@@ -54,7 +54,7 @@ class PostController @Autowired constructor(val forumService: ForumService) {
 
 
     /**
-     * Return list of thread
+     * Return list of posts in the thread
      */
     @GetMapping(value = ["/{uid}/thread"], produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
     fun getPostThread(@PathVariable(required = true) realmId: String,
